@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>estante do bê</title>
+  <meta name="description" content="Os joguinhos do Bernardo, pra jogar no navegador.">
+  <meta name="theme-color" content="#0c0b10">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23d4ff3f'/><text x='32' y='45' font-family='Arial Black,Arial' font-weight='900' font-size='34' text-anchor='middle' fill='%230c0b10'>bê</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hub/css/site.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-dentro">
+      <a class="logo" href="#/" aria-label="Início">
+        <span class="logo-icone" aria-hidden="true">
+          <svg viewBox="0 0 48 32"><rect x="1" y="4" width="46" height="26" rx="13" /><rect class="cruz" x="9" y="15" width="12" height="4" rx="1"/><rect class="cruz" x="13" y="11" width="4" height="12" rx="1"/><circle class="b1" cx="33" cy="14" r="3"/><circle class="b2" cx="39" cy="20" r="3"/></svg>
+        </span>
+        <span class="logo-texto"></span>
+      </a>
+      <nav class="menu">
+        <a href="#/" data-rota="inicio">Início</a>
+        <a href="#/teste" data-rota="teste">Em teste <span class="bolinha" id="qtd-teste"></span></a>
+        <a href="#/todos" data-rota="todos">Todos os jogos</a>
+      </nav>
+      <label class="busca">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+        <input id="busca" type="search" placeholder="buscar" autocomplete="off" aria-label="Buscar jogos">
+        <div class="busca-resultados" id="busca-resultados"></div>
+      </label>
+    </div>
+  </header>
+
+  <!-- cada "página" do site é desenhada aqui por hub/js/site.js -->
+  <main id="app" tabindex="-1"></main>
+
+  <footer class="rodape">
+    <div class="rodape-dentro">
+      <strong class="rodape-nome logo-texto" aria-hidden="true"></strong>
+      <div>
+        <p id="slogan"></p>
+      </div>
+      <p class="miudo">Feito pelo <span id="dono"></span>, um pixel de cada vez.<br><span class="segredo">psst: ↑ ↑ ↓ ↓ ← → ← → B A</span></p>
+    </div>
+  </footer>
+
+  <div id="cortina" aria-hidden="true">
+    <div class="cortina-faixas"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="cortina-caixa">
+      <span class="cortina-titulo"></span>
+      <span class="cortina-barra"><i></i></span>
+      <span class="cortina-dica">carregando…</span>
+    </div>
+  </div>
+  <div id="avisos" aria-live="polite"></div>
+
+  <!-- ★ os jogos ficam em hub/jogos.js -->
+  <script src="hub/jogos.js"></script>
+  <script src="hub/js/efeitos.js"></script>
+  <script src="hub/js/site.js"></script>
+</body>
+</html>

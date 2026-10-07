@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Eu te darei o sol</title>
+
+  <!-- Fontes: Cormorant (texto) e Caveat (letra de mão). Sem internet, usa Georgia. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="stage">
+    <canvas id="game" aria-label="Eu te darei o sol"></canvas>
+
+    <!-- Botões de toque (aparecem só no celular) -->
+    <div id="touch">
+      <div class="pad-left">
+        <button data-btn="left" aria-label="esquerda">&#9664;</button>
+        <button data-btn="right" aria-label="direita">&#9654;</button>
+      </div>
+      <div class="pad-right">
+        <button data-btn="swap" class="small" aria-label="trocar">&#8644;</button>
+        <button data-btn="action" class="small" aria-label="ação">&#10022;</button>
+        <button data-btn="jump" class="jump" aria-label="pular">&#9728;</button>
+      </div>
+    </div>
+  </main>
+
+  <!--
+    A ORDEM DOS SCRIPTS IMPORTA: núcleo → arte → entidades → mundo →
+    fases → interface → cenas → main.js (que liga tudo).
+  -->
+  <script src="js/config.js"></script>
+
+  <!-- Núcleo -->
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/draw.js"></script>
+  <script src="js/core/input.js"></script>
+  <script src="js/core/audio.js"></script>
+  <script src="js/core/game.js"></script>
+
+  <!-- Arte -->
+  <script src="js/art/characters.js"></script>
+  <script src="js/art/props.js"></script>
+  <script src="js/art/mural.js"></script>
+  <script src="js/art/extras.js"></script>
+
+  <!-- Entidades -->
+  <script src="js/entities/particles.js"></script>
+  <script src="js/entities/platform.js"></script>
+  <script src="js/entities/devices.js"></script>
+  <script src="js/entities/hazards.js"></script>
+  <script src="js/entities/pickups.js"></script>
+  <script src="js/entities/twin.js"></script>
+
+  <!-- Mundo -->
+  <script src="js/world/background.js"></script>
+
+  <!-- Fases (os capítulos) -->
+  <script src="js/levels/level1.js"></script>
+  <script src="js/levels/level2.js"></script>
+  <script src="js/levels/level3.js"></script>
+  <script src="js/levels/level4.js"></script>
+  <script src="js/levels/level5.js"></script>
+  <script src="js/levels/level6.js"></script>
+  <script src="js/levels/level7.js"></script>
+  <script src="js/levels/level8.js"></script>
+  <script src="js/levels/level9.js"></script>
+  <script src="js/levels/level10.js"></script>
+
+  <!-- Interface -->
+  <script src="js/ui/typewriter.js"></script>
+  <script src="js/ui/hud.js"></script>
+
+  <!-- Cenas -->
+  <script src="js/scenes/title.js"></script>
+  <script src="js/scenes/play.js"></script>
+  <script src="js/scenes/interlude.js"></script>
+  <script src="js/scenes/ending.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Fragmentados</title>
+
+  <!-- Fonte elegante (se estiver sem internet, o jogo usa Georgia) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="stage">
+    <canvas id="game" aria-label="Fragmentados"></canvas>
+
+    <!-- Botões de toque (aparecem só no celular) -->
+    <div id="touch">
+      <div class="pad-left">
+        <button data-btn="left" aria-label="esquerda">&#9664;</button>
+        <button data-btn="right" aria-label="direita">&#9654;</button>
+      </div>
+      <button data-btn="jump" class="jump" aria-label="pular">&#9829;</button>
+    </div>
+  </main>
+
+  <!--
+    A ORDEM DOS SCRIPTS IMPORTA:
+    primeiro o "núcleo", depois a arte, as entidades, o mundo, as fases,
+    a interface, as cenas e por último o main.js, que liga tudo.
+  -->
+
+  <!-- Configuração pessoal (nomes, dedicatória) -->
+  <script src="js/config.js"></script>
+
+  <!-- Núcleo: utilidades, desenho, teclado, som, laço do jogo -->
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/draw.js"></script>
+  <script src="js/core/input.js"></script>
+  <script src="js/core/audio.js"></script>
+  <script src="js/core/game.js"></script>
+
+  <!-- Arte: os personagens, o retrato dela, os cristais -->
+  <script src="js/art/shard.js"></script>
+  <script src="js/art/characters.js"></script>
+  <script src="js/art/portrait.js"></script>
+
+  <!-- Entidades: coisas que existem dentro das fases -->
+  <script src="js/entities/particles.js"></script>
+  <script src="js/entities/platform.js"></script>
+  <script src="js/entities/fragment.js"></script>
+  <script src="js/entities/player.js"></script>
+  <script src="js/entities/amada.js"></script>
+
+  <!-- Mundo: céu, colinas, clima -->
+  <script src="js/world/background.js"></script>
+
+  <!-- Fases: cada fragmento dela é um arquivo -->
+  <script src="js/levels/level1.js"></script>
+  <script src="js/levels/level2.js"></script>
+  <script src="js/levels/level3.js"></script>
+  <script src="js/levels/level4.js"></script>
+  <script src="js/levels/level5.js"></script>
+
+  <!-- Interface -->
+  <script src="js/ui/typewriter.js"></script>
+  <script src="js/ui/hud.js"></script>
+
+  <!-- Cenas: título, jogo, poemas entre fases, final -->
+  <script src="js/scenes/title.js"></script>
+  <script src="js/scenes/play.js"></script>
+  <script src="js/scenes/interlude.js"></script>
+  <script src="js/scenes/ending.js"></script>
+
+  <!-- Começa tudo -->
+  <script src="js/main.js"></script>
+</body>
+</html>
