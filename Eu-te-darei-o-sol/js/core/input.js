@@ -26,30 +26,11 @@ F.Input = {
     this.initTouch(canvas);
   },
 
+  // Celular: os botões de toque e a pausa ficam em core/mobile.js
   initTouch(canvas) {
-    if (!('ontouchstart' in window || navigator.maxTouchPoints > 0)) return;
+    if (!F.Mobile.device()) return;
     this.isTouch = true;
-    document.getElementById('touch').classList.add('visible');
-    canvas.addEventListener('touchstart', () => { this.pressed.Tap = true; F.Audio.init(); }, { passive: true });
-
-    document.querySelectorAll('#touch [data-btn]').forEach((btn) => {
-      const name = btn.dataset.btn;
-      const on = (e) => {
-        e.preventDefault();
-        F.Audio.init();
-        this.touch[name] = true;
-        this.pressed['Touch_' + name] = true;
-        btn.classList.add('on');
-      };
-      const off = (e) => {
-        e.preventDefault();
-        this.touch[name] = false;
-        btn.classList.remove('on');
-      };
-      btn.addEventListener('touchstart', on, { passive: false });
-      btn.addEventListener('touchend', off, { passive: false });
-      btn.addEventListener('touchcancel', off, { passive: false });
-    });
+    F.Mobile.initTouch(this, canvas);
   },
 
   endFrame() { this.pressed = {}; },

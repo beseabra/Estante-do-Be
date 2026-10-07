@@ -31,7 +31,8 @@ F.HUD = class {
   }
 
   showMemory(text) { this.memory = text; this.memoryT = 0; }
-  showHint(text) { this.hint = text; this.hintT = 0; }
+  // no celular, "aperte X" vira "toque ✦" (os botões da tela)
+  showHint(text) { this.hint = F.Mobile.label(text); this.hintT = 0; }
 
   // Coloca uma fala na fila. "urgent" fura a fila (ex.: "acabou a tinta").
   say(who, text, urgent = false) {
@@ -58,7 +59,7 @@ F.HUD = class {
     if (this.line) {
       this.line.tw.update(dt);
       this.line.t += dt;
-      if (F.Input.pressed.Enter || F.Input.pressed.NumpadEnter) {
+      if (F.Input.pressed.Enter || F.Input.pressed.NumpadEnter || F.Input.pressed.TouchTap) {
         if (!this.line.tw.done) this.line.tw.finish();
         else this.line.t = this.line.life;
       }
@@ -123,16 +124,18 @@ F.HUD = class {
     F.draw.text(ctx, `${got}/${total}`, F.W - 34, 30, { size: 18, font: F.HAND, color: '#fff', alpha: 0.9 });
 
     // ---- Tinta / amuletos ----
+    // (no celular ficam no alto, para não ficarem embaixo dos botões)
     let bx = 14;
+    const cy = F.Input.isTouch ? 54 : F.H - 50;
     for (const tw of scene.twins) {
       const active = tw === scene.active;
       const w = tw.kind === 'noah' ? 128 : 40 + Math.max(1, tw.amulets) * 22;
-      F.HUD.chip(ctx, bx, F.H - 50, w, 36);
+      F.HUD.chip(ctx, bx, cy, w, 36);
       ctx.save();
       ctx.globalAlpha = active ? 1 : 0.55;
       // rostinho
       ctx.save();
-      ctx.translate(bx + 18, F.H - 6);
+      ctx.translate(bx + 18, cy + 44);
       ctx.scale(0.66, 0.66);
       ctx.beginPath();
       ctx.arc(1, -38, 17, 0, Math.PI * 2);
@@ -142,7 +145,7 @@ F.HUD = class {
       ctx.restore();
       if (tw.kind === 'noah') {
         for (let i = 0; i < F.Twin.PAINT_MAX; i++) {
-          const x = bx + 44 + i * 26, y = F.H - 32;
+          const x = bx + 44 + i * 26, y = cy + 18;
           const full = i < tw.paint;
           ctx.fillStyle = full ? `hsl(${(i * 70 + t * 40) % 360},80%,62%)` : 'rgba(255,255,255,0.15)';
           ctx.beginPath();
@@ -152,20 +155,20 @@ F.HUD = class {
           ctx.fill();
         }
       } else {
-        if (tw.amulets === 0) F.draw.text(ctx, '·', bx + 46, F.H - 32, { size: 20, color: '#fff', alpha: 0.4 });
-        for (let i = 0; i < tw.amulets; i++) F.Art.amulet(ctx, bx + 46 + i * 22, F.H - 32, 'trevo', t + i);
+        if (tw.amulets === 0) F.draw.text(ctx, '·', bx + 46, cy + 18, { size: 20, color: '#fff', alpha: 0.4 });
+        for (let i = 0; i < tw.amulets; i++) F.Art.amulet(ctx, bx + 46 + i * 22, cy + 18, 'trevo', t + i);
       }
       if (active && scene.twins.length > 1) {
         ctx.strokeStyle = 'rgba(255,220,140,0.9)';
         ctx.lineWidth = 1.5;
-        F.draw.roundRect(ctx, bx, F.H - 50, w, 36, 18);
+        F.draw.roundRect(ctx, bx, cy, w, 36, 18);
         ctx.stroke();
       }
       ctx.restore();
       bx += w + 10;
     }
     if (scene.twins.length > 1) {
-      F.draw.text(ctx, F.Input.isTouch ? '⇄ trocar' : 'TAB trocar', bx + 6, F.H - 32, { size: 16, align: 'left', style: 'italic', color: '#fff', alpha: 0.7 });
+      F.draw.text(ctx, F.Input.isTouch ? '⇄ trocar' : 'TAB trocar', bx + 6, cy + 18, { size: 16, align: 'left', style: 'italic', color: '#fff', alpha: 0.7 });
     }
 
     // ---- Dica ----
@@ -175,7 +178,7 @@ F.HUD = class {
         ctx.font = `italic 400 19px ${F.FONT}`;
         const w = ctx.measureText(this.hint).width + 40;
         ctx.globalAlpha = ha;
-        const hy = this.line ? 196 : 74;   // desce quando há alguém falando
+        const hy = this.line ? 196 : (F.Input.isTouch ? 112 : 74);   // desce quando há alguém falando
         F.HUD.chip(ctx, F.W / 2 - w / 2, hy - 16, w, 30);
         ctx.globalAlpha = 1;
         F.draw.text(ctx, this.hint, F.W / 2, hy, { size: 19, style: 'italic', color: '#fff', alpha: ha });

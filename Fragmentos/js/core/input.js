@@ -27,32 +27,11 @@ F.Input = {
     this.initTouch(canvas);
   },
 
+  // Celular: os botões de toque e a pausa ficam em core/mobile.js
   initTouch(canvas) {
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (!isTouch) return;
+    if (!F.Mobile.device()) return;
     this.isTouch = true;
-
-    document.getElementById('touch').classList.add('visible');
-    canvas.addEventListener('touchstart', () => { this.pressed.Tap = true; F.Audio.init(); }, { passive: true });
-
-    document.querySelectorAll('#touch [data-btn]').forEach((btn) => {
-      const name = btn.dataset.btn;
-      const on = (e) => {
-        e.preventDefault();
-        F.Audio.init();
-        this.touch[name] = true;
-        if (name === 'jump') this.pressed.TouchJump = true;
-        btn.classList.add('on');
-      };
-      const off = (e) => {
-        e.preventDefault();
-        this.touch[name] = false;
-        btn.classList.remove('on');
-      };
-      btn.addEventListener('touchstart', on, { passive: false });
-      btn.addEventListener('touchend', off, { passive: false });
-      btn.addEventListener('touchcancel', off, { passive: false });
-    });
+    F.Mobile.initTouch(this, canvas);
   },
 
   // Chamado no fim de cada quadro: "pressed" vale só um quadro.
@@ -62,9 +41,9 @@ F.Input = {
 
   left()        { return this.any(['ArrowLeft', 'KeyA'], this.down) || this.touch.left; },
   right()       { return this.any(['ArrowRight', 'KeyD'], this.down) || this.touch.right; },
-  jumpPressed() { return this.any(['Space', 'ArrowUp', 'KeyW', 'KeyZ', 'TouchJump'], this.pressed); },
+  jumpPressed() { return this.any(['Space', 'ArrowUp', 'KeyW', 'KeyZ', 'Touch_jump'], this.pressed); },
   jumpHeld()    { return this.any(['Space', 'ArrowUp', 'KeyW', 'KeyZ'], this.down) || this.touch.jump; },
-  confirm()     { return this.any(['Enter', 'NumpadEnter', 'Space', 'Tap', 'TouchJump'], this.pressed); },
+  confirm()     { return this.any(['Enter', 'NumpadEnter', 'Space', 'Tap', 'Touch_jump'], this.pressed); },
   anyPressed()  { return Object.keys(this.pressed).length > 0; },
   musicToggle() { return !!this.pressed.KeyM; },
 

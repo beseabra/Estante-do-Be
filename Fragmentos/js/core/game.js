@@ -10,10 +10,13 @@
 // ============================================================
 F.Game = {
   scene: null,
+  paused: false,
   fade: { a: 1, dir: -1, next: null, color: '#000', speed: 1 },
 
   start() {
     this.canvas = document.getElementById('game');
+    // no celular, uma resolução um pouco menor deixa o jogo mais fluido
+    if (F.Mobile.device()) F.SCALE = 1.5;
     this.canvas.width = F.W * F.SCALE;
     this.canvas.height = F.H * F.SCALE;
     this.ctx = this.canvas.getContext('2d');
@@ -44,8 +47,10 @@ F.Game = {
 
     if (F.Input.musicToggle()) F.Audio.toggle();
 
-    this.scene.update(dt);
-    this.updateFade(dt);
+    if (!this.paused) {
+      this.scene.update(dt);
+      this.updateFade(dt);
+    }
     F.Audio.update();
 
     const ctx = this.ctx;

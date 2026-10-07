@@ -96,6 +96,8 @@ F.TitleScene = class {
 
     if (!F.Input.isTouch) {
       F.draw.text(ctx, '← → andar  ·  espaço pular / planar  ·  X pintar / esculpir  ·  TAB trocar  ·  R recomeçar  ·  M música', F.W / 2, 526, { size: 13, spacing: 1, color: '#fff0e0', alpha: a * 0.6 });
+    } else {
+      F.draw.text(ctx, '◀ ▶ andar  ·  ☀ pular (segure para planar)  ·  ✦ pintar / esculpir  ·  ⇄ trocar', F.W / 2, 300, { size: 16, spacing: 1, color: '#fff0e0', alpha: a * 0.7 });
     }
 
     F.draw.vignette(ctx, 0.45, '30,10,30');

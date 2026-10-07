@@ -104,6 +104,8 @@ F.TitleScene = class {
 
     if (!F.Input.isTouch) {
       F.draw.text(ctx, '← →  andar     ·     espaço  pular     ·     M  música', F.W / 2, 525, { size: 13, spacing: 1, color: '#f2c9d6', alpha: a * 0.45 });
+    } else {
+      F.draw.text(ctx, '◀ ▶  andar     ·     ♥  pular (segure para ir mais alto)', F.W / 2, 400, { size: 16, spacing: 1, color: '#f2c9d6', alpha: a * 0.6 });
     }
 
     F.draw.vignette(ctx, 0.5);

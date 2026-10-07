@@ -62,3 +62,87 @@ html, body {
 #touch .pad-right { display: flex; gap: 12px; align-items: flex-end; }
 #touch .small { width: 54px; height: 54px; font-size: 20px; }
 #touch .jump { color: #ffc94a; }
+
+:root { --tom: #ffc94a; --tom-fundo: rgba(230, 150, 40, 0.45); --tom-borda: rgba(255, 201, 74, 0.6); }
+
+/* ============================================================
+   CELULAR (tudo abaixo só vale com html.toque, ligado por
+   core/mobile.js em celulares e tablets; no PC nada muda)
+   ============================================================ */
+@supports (height: 100dvh) {
+  #game { width: min(100vw, 177.78dvh); height: min(56.25vw, 100dvh); }
+}
+html.toque, html.toque body { -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+html.toque #game { cursor: default; box-shadow: none; }
+
+/* botões maiores, afastados das bordas arredondadas e do entalhe */
+html.toque #touch {
+  padding: 0 max(18px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+}
+html.toque #touch button {
+  width: 70px; height: 70px; font-size: 24px;
+  background: rgba(20, 10, 20, 0.16);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: transform .08s, background .08s, border-color .08s;
+  touch-action: none;
+}
+html.toque #touch button.on { transform: scale(0.9); background: var(--tom-fundo); border-color: var(--tom); }
+html.toque #touch .pad-left { gap: 10px; }
+html.toque #touch .pad-left button { width: 74px; height: 74px; }
+html.toque #touch .jump { width: 88px; height: 88px; font-size: 32px; color: var(--tom); border-color: var(--tom-borda); }
+html.toque #touch .small { width: 58px; height: 58px; font-size: 21px; margin-bottom: 14px; }
+
+/* botão de pausa (no alto, no meio) */
+#m-pausa { display: none; }
+html.toque #m-pausa {
+  position: fixed; z-index: 5; top: max(8px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+  display: flex; gap: 5px; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(20, 10, 20, 0.3); opacity: .75;
+}
+html.toque #m-pausa i { display: block; width: 4px; height: 14px; border-radius: 2px; background: #fff; }
+
+/* menu de pausa */
+#m-menu {
+  position: fixed; inset: 0; z-index: 20; display: grid; place-items: center;
+  background: rgba(8, 4, 10, 0.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+#m-menu[hidden] { display: none; }
+.m-caixa { display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: min(300px, 80vw); text-align: center; animation: m-entra .3s ease-out; }
+@keyframes m-entra { from { opacity: 0; transform: translateY(10px); } }
+.m-titulo { color: var(--tom); font-size: 15px; letter-spacing: .4em; text-transform: uppercase; margin-bottom: 6px; }
+.m-caixa button, .m-caixa a {
+  font: italic 400 21px/1 'Cormorant Garamond', Georgia, serif; color: #fff;
+  padding: 12px 18px; border-radius: 999px; text-decoration: none;
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.m-caixa button[hidden] { display: none; }
+.m-caixa button:active, .m-caixa a:active { background: var(--tom-fundo); }
+.m-caixa .m-principal { background: var(--tom); color: #1a0a10; border-color: var(--tom); font-style: normal; font-weight: 600; }
+.m-caixa b { font-weight: 600; font-style: normal; }
+.m-caixa a { margin-top: 8px; font-size: 17px; opacity: .7; background: none; border-color: transparent; }
+
+/* celular em pé: sugere girar */
+#m-girar { display: none; }
+@media (orientation: portrait) {
+  html.toque:not(.em-pe-ok) #m-girar {
+    position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    background: radial-gradient(ellipse at center, #1c0c16 0%, #07030a 75%); color: #fff; text-align: center; padding: 24px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+  #m-girar p { font: italic 400 28px/1.1 'Cormorant Garamond', Georgia, serif; margin-top: 18px; }
+  #m-girar small { font: italic 400 17px 'Cormorant Garamond', Georgia, serif; opacity: .6; }
+  #m-girar button { margin-top: 26px; font: italic 400 16px 'Cormorant Garamond', Georgia, serif; color: #fff; opacity: .55; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.4); padding: 4px 2px; }
+  .m-celular { width: 46px; height: 78px; border: 2px solid var(--tom); border-radius: 9px; position: relative; animation: m-gira 2.4s ease-in-out infinite; }
+  .m-celular i { position: absolute; left: 50%; bottom: 6px; width: 10px; height: 2px; margin-left: -5px; border-radius: 1px; background: var(--tom); }
+  @keyframes m-gira { 0%, 25% { transform: rotate(0); } 55%, 85% { transform: rotate(-90deg); } 100% { transform: rotate(0); } }
+
+  /* em pé mesmo: o jogo fica em cima e os botões embaixo, sem cobrir nada */
+  html.toque #stage { align-items: flex-start; padding-top: max(56px, env(safe-area-inset-top)); }
+  html.toque #touch { padding-bottom: max(34px, env(safe-area-inset-bottom)); }
+}
