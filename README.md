@@ -11,7 +11,7 @@ Abra o `index.html`. Funciona direto do computador, sem servidor.
 ## Estrutura
 
 ```
-Fragmentos/
+Estante-do-Be/
 ├── index.html              a página (abra esta)
 ├── hub/
 │   ├── jogos.js            ★ OS JOGOS e os textos do site: edite aqui
@@ -21,6 +21,7 @@ Fragmentos/
 │   └── js/
 │       ├── efeitos.js      inclinação 3D, transição, avisos, confete
 │       └── site.js         as páginas (início, listas, página do jogo) e a busca
+├── Energy-exe/             jogo: Energy.exe (o conteúdo fica em Energy-exe/js/dados/)
 ├── Fragmentos/             jogo: Fragmentados
 └── Eu-te-darei-o-sol/      jogo: Eu te darei o sol
 ```
@@ -34,7 +35,7 @@ No topo de `hub/jogos.js`, em `window.SITE`:
 
 ## Adicionar um jogo novo
 
-1. Coloque a pasta do jogo dentro de `Fragmentos/` (ela precisa ter um `index.html`). Use nomes **sem espaços e sem acentos**, como `Meu-Jogo-Novo`.
+1. Coloque a pasta do jogo dentro de `Estante-do-Be/` (ela precisa ter um `index.html`). Use nomes **sem espaços e sem acentos**, como `Meu-Jogo-Novo`.
 2. Tire prints do jogo (16:9): um da tela de título para a capa, salvo em `hub/capas/`, e alguns de gameplay, salvos em `hub/capturas/`.
 3. Em `hub/jogos.js`, copie um bloco e troque os dados:
    ```js
@@ -65,7 +66,7 @@ O jogo aparece sozinho no início, nas listas, na busca e ganha a própria pági
 
 A pasta inteira é um site estático (só HTML, CSS e JS). Duas opções gratuitas:
 
-- **Mais rápida: Netlify Drop.** Entre em <https://app.netlify.com/drop> e arraste a pasta `Fragmentos` para a página. Em segundos sai um link público. Criando uma conta, dá para trocar o nome do link e atualizar arrastando a pasta de novo.
+- **Mais rápida: Netlify Drop.** Entre em <https://app.netlify.com/drop> e arraste a pasta `Estante-do-Be` para a página. Em segundos sai um link público. Criando uma conta, dá para trocar o nome do link e atualizar arrastando a pasta de novo.
 - **Para durar: GitHub Pages.** Crie um repositório no GitHub, envie o conteúdo desta pasta e vá em *Settings → Pages → Branch: main → Save*. O site fica em `https://seu-usuario.github.io/nome-do-repositorio/`. Cada atualização é um novo envio.
 
 Dica: nos servidores, letras maiúsculas e minúsculas fazem diferença. O nome em `pasta:` precisa ser exatamente igual ao da pasta.

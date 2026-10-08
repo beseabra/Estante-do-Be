@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Energy.exe</title>
+  <meta name="theme-color" content="#008080">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%23000080'/><path d='M36 6 14 36h14l-4 22 24-32H34z' fill='%23ffd23f'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- o mundo (o prédio da Voltagem S.A.) é desenhado aqui -->
+  <canvas id="mundo" aria-label="Escritório da Voltagem S.A."></canvas>
+
+  <!-- tudo que é janela, barra de tarefas e área de trabalho é HTML -->
+  <div id="ui">
+    <div id="rastreio"></div>
+    <button id="prompt" hidden></button>
+    <div id="toasts" aria-live="polite"></div>
+    <div id="janelas"></div>
+  </div>
+
+  <!--
+    A ORDEM DOS SCRIPTS IMPORTA:
+    base → arte → mundo → dados (o conteúdo do jogo) → sistemas → interface → cenas → main
+  -->
+  <script src="js/core/base.js"></script>
+  <script src="js/core/input.js"></script>
+  <script src="js/core/som.js"></script>
+
+  <!-- Arte: pessoas e móveis, desenhados em pixel com código -->
+  <script src="js/arte/pessoas.js"></script>
+  <script src="js/arte/moveis.js"></script>
+
+  <!-- O prédio: andares, colisão, caminhos -->
+  <script src="js/mundo/mapas.js"></script>
+  <script src="js/mundo/mundo.js"></script>
+
+  <!-- ★ O conteúdo: pessoas, regras, situações, e-mails, reuniões, missões, carreira, finais -->
+  <script src="js/dados/npcs.js"></script>
+  <script src="js/dados/regras.js"></script>
+  <script src="js/dados/eventos.js"></script>
+  <script src="js/dados/emails.js"></script>
+  <script src="js/dados/reunioes.js"></script>
+  <script src="js/dados/quests.js"></script>
+  <script src="js/dados/missoes.js"></script>
+  <script src="js/dados/carreira.js"></script>
+  <script src="js/dados/finais.js"></script>
+
+  <!-- Sistemas: atributos, tempo, escolhas, conversas -->
+  <script src="js/jogo/estado.js"></script>
+  <script src="js/jogo/ui.js"></script>
+  <script src="js/jogo/escolhas.js"></script>
+  <script src="js/jogo/conversa.js"></script>
+  <script src="js/jogo/reuniao.js"></script>
+  <script src="js/jogo/dia.js"></script>
+
+  <!-- Cenas: área de trabalho, cadastro, jogo, finais -->
+  <script src="js/cenas/titulo.js"></script>
+  <script src="js/cenas/criacao.js"></script>
+  <script src="js/cenas/fim.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

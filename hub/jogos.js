@@ -2,7 +2,7 @@
 //  ★ A ESTANTE: tudo que aparece no site sai daqui ★
 //
 //  Para adicionar um jogo novo:
-//    1. Coloque a pasta do jogo dentro de "Fragmentos/" (com um
+//    1. Coloque a pasta do jogo dentro de "Estante-do-Be/" (com um
 //       index.html dentro). Nome da pasta sem espaços nem acentos.
 //    2. Copie um bloco { ... } de JOGOS e troque os dados.
 //    3. Capa (16:9) em hub/capas/ e capturas de tela em hub/capturas/.
@@ -32,6 +32,40 @@ window.SITE = {
 };
 
 window.JOGOS = [
+  {
+    id: "energy-exe",
+    titulo: "Energy.exe",
+    pasta: "Energy-exe/",
+    capa: "hub/capas/energy-exe.png",
+    capturas: [
+      "hub/capturas/energy-1.png",
+      "hub/capturas/energy-2.png",
+      "hub/capturas/energy-3.png",
+      "hub/capturas/energy-4.png",
+      "hub/capturas/energy-5.png",
+      "hub/capturas/energy-6.png",
+    ],
+    cor: "#1a5fd0",
+    status: "teste",
+    destaque: true,
+    versao: "0.1 beta",
+    data: "2026-10-07",
+    duracao: "~2 horas (3 meses corporativos)",
+    jogadores: "1",
+    controles: "Teclado, mouse ou toque",
+    resumo:
+      "Simulador de vida corporativa com humor absurdo. Sobreviva ao primeiro mês numa grande empresa de energia, tome decisões e tente subir na carreira.",
+    descricao: [
+      "Você é a pessoa mais nova da Voltagem S.A. Ande livremente pelos quatro andares do prédio, da fábrica à Diretoria, converse com 34 colegas, receba missões, entre em reuniões e responda e-mails às 17h58.",
+      "Quase tudo tem consequência: pedir aumento, fingir que está trabalhando, jogar a culpa em alguém, criar uma automação que economiza horas (ou que manda 4 mil e-mails para um cliente) e, claro, decidir o destino do último pão de queijo.",
+      'Descubra as regras do "Manual não oficial" conversando com as pessoas, escolha entre as trilhas de gestão, técnica ou alternativa e encontre os dez finais.',
+    ],
+    tags: ["Simulação", "Humor", "Escolhas", "RPG"],
+    notas: [
+      "Primeira versão de teste: 4 andares, 34 pessoas, 35 situações com 111 escolhas, 8 investigações, 7 tipos de reunião e 10 finais.",
+      "Funciona no celular: toque no chão para andar.",
+    ],
+  },
   {
     id: "eu-te-darei-o-sol",
     titulo: "Eu te darei o sol",
