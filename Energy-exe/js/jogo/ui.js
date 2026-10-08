@@ -31,7 +31,7 @@ F.UI = {
     document.getElementById('btn-email').addEventListener('click', () => { this.fecharMenu(); F.Emails.abrir(); });
     document.addEventListener('pointerdown', (e) => { if (!this.menuEl.hidden && !this.menuEl.contains(e.target) && e.target.id !== 'btn-iniciar') this.fecharMenu(); });
     this.promptEl.addEventListener('click', () => { const a = F.Mundo.alvo; if (a && !this.aberta()) { F.Mundo.olharPara(a); F.Interacao.com(a); } });
-    this.rastreioEl.addEventListener('click', () => { this.rastreioEl.classList.toggle('fechado'); });
+    this.rastreioEl.addEventListener('click', () => { this.rastreioEl.classList.toggle('fechado'); this.rastreioEl.classList.toggle('aberto'); });
 
     // teclado dentro das janelas
     window.addEventListener('keydown', (e) => {
@@ -219,7 +219,7 @@ F.UI = {
   toast(titulo, texto, ms = 4200) {
     const t = F.u.el('div', 'toast', `<b>${F.u.esc(titulo)}</b>${F.u.esc(texto || '')}`);
     this.toastsEl.appendChild(t);
-    while (this.toastsEl.children.length > 4) this.toastsEl.firstChild.remove();
+    while (this.toastsEl.children.length > (window.innerHeight < 500 || window.innerWidth < 760 ? 2 : 4)) this.toastsEl.firstChild.remove();
     setTimeout(() => { t.classList.add('sai'); setTimeout(() => t.remove(), 400); }, ms);
   },
 

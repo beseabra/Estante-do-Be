@@ -388,3 +388,76 @@ input, select { font: inherit; }
   .transcricao { height: 90px; }
   #rastreio { transform: none; width: 180px; }
 }
+
+/* ============================================================
+   AJUSTES PARA TELAS PEQUENAS (celular em pé e deitado)
+   ============================================================ */
+:root { --alto: 100vh; }
+@supports (height: 100dvh) { :root { --alto: 100dvh; } }
+/* as janelas nunca passam da tela: o conteúdo rola por dentro */
+.win { max-height: calc(var(--alto) - var(--barra) - 24px - env(safe-area-inset-top)); }
+#janelas {
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+  padding-top: max(12px, env(safe-area-inset-top));
+}
+#menu-iniciar { max-height: calc(var(--alto) - var(--barra) - 6px); overflow-y: auto; left: max(4px, env(safe-area-inset-left)); }
+.menu-faixa { position: sticky; top: 0; }
+html.toque .win-corpo { -webkit-user-select: none; user-select: none; }
+html.toque .opcao:hover { background: var(--cinza); }
+
+@media (max-width: 760px), (max-height: 500px) {
+  #janelas { padding-top: max(6px, env(safe-area-inset-top)); padding-bottom: calc(var(--barra) + 6px); }
+  .win { max-height: calc(var(--alto) - var(--barra) - 12px - env(safe-area-inset-top)); }
+  /* post-it começa recolhido: toque para abrir */
+  #rastreio { width: auto; max-width: 220px; padding: 6px 10px; transform: none; font-size: 12px; }
+  #rastreio h4 { margin-bottom: 0; gap: 10px; }
+  #rastreio:not(.aberto) ul { display: none; }
+  #rastreio.aberto { width: 220px; }
+  #rastreio.aberto h4 { margin-bottom: 6px; }
+  .toast { max-width: 240px; padding: 6px 10px; font-size: 12px; }
+  #toasts { gap: 4px; }
+  .win-barra { height: 24px; font-size: 13px; }
+  .win-botoes { padding: 2px 8px 8px; }
+  .win-botoes .btn { min-height: 38px; }
+}
+
+/* celular deitado: pouca altura */
+@media (max-height: 500px) {
+  .win { width: min(760px, 100%); }
+  .win.estreita { width: min(460px, 100%); }
+  .win-corpo { padding: 8px 10px; }
+  .dlg { grid-template-columns: 64px 1fr; gap: 10px; }
+  .dlg-foto, .dlg-foto canvas { width: 64px; }
+  .dlg-foto canvas { height: 64px; }
+  .dlg-cargo { display: none; }
+  .dlg-nome { font-size: 12px; }
+  .dlg-texto { padding: 8px 10px; font-size: 14px; line-height: 1.4; }
+  .situacao-tit { font-size: 16px; margin-bottom: 4px; }
+  .opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 8px; }
+  .opcao { min-height: 40px; padding: 4px 8px; font-size: 13px; }
+  .chips { margin-top: 8px; }
+  .acoes-reuniao { grid-template-columns: repeat(3, 1fr); margin-top: 6px; }
+  .acoes-reuniao .btn { min-height: 36px; font-size: 12px; }
+  .transcricao { height: 96px; }
+  .participantes canvas { width: 32px; height: 32px; }
+  .outlouco { grid-template-columns: 200px 1fr; height: calc(var(--alto) - var(--barra) - 110px); }
+  .outlouco .caixa { max-height: none; }
+  .leitura { padding: 8px 10px; }
+  .menu-item { padding: 6px 10px; }
+  .menu-quem { padding: 6px 10px; }
+  .cad { grid-template-columns: 140px 1fr; }
+  .cad-preview canvas { width: 112px; height: 112px; }
+  .campo { grid-template-columns: 90px 1fr; }
+  .marca { font-size: 36px; }
+}
+
+/* celular em pé: pouca largura */
+@media (max-width: 760px) and (min-height: 501px) {
+  .dlg { grid-template-columns: 64px 1fr; }
+  .dlg-foto, .dlg-foto canvas { width: 64px; }
+  .dlg-foto canvas { height: 64px; }
+  .dlg-cargo { font-size: 11px; }
+  .outlouco .caixa { max-height: 22vh; }
+  .leitura { max-height: calc(var(--alto) - var(--barra) - 22vh - 130px); }
+}
