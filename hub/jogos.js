@@ -33,6 +33,35 @@ window.SITE = {
 
 window.JOGOS = [
   {
+    id: "por-onde-andei",
+    titulo: "por onde andei",
+    pasta: "Por-Onde-Andei/",
+    capa: "hub/capas/por-onde-andei.png",
+    capturas: [
+      "hub/capturas/andei-1.png",
+      "hub/capturas/andei-2.png",
+      "hub/capturas/andei-3.png",
+    ],
+    cor: "#3fb8ff",
+    status: "teste",
+    destaque: true,
+    versao: "0.1 beta",
+    data: "2026-10-16",
+    jogadores: "1",
+    controles: "Mouse ou toque",
+    resumo:
+      "Um globo que gira, com um alfinete em cada lugar onde você já esteve. Cada alfinete guarda as fotos, os vídeos e as anotações daquela viagem.",
+    descricao: [
+      "Gire o globo, busque qualquer cidade do mundo ou clique num ponto do mapa para fincar um alfinete. Os países por onde você passou vão ficando tingidos.",
+      "Cada lugar vira uma galeria: fotos e vídeos (é só arrastar os arquivos), legendas, uma foto de capa, quando você foi e anotações para não esquecer os detalhes.",
+      "Tudo fica guardado no seu próprio navegador, sem cadastro. Um botão salva uma cópia de tudo num arquivo para não perder nada.",
+    ],
+    tags: ["App", "Viagens", "Mapa", "Fotos"],
+    notas: [
+      "Primeira versão: globo com zoom, busca de cidades, alfinetes, galeria de fotos e vídeos, anotações e cópia de segurança.",
+    ],
+  },
+  {
     id: "energy-exe",
     titulo: "Energy.exe",
     pasta: "Energy-exe/",

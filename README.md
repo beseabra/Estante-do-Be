@@ -23,7 +23,8 @@ Estante-do-Be/
 │       └── site.js         as páginas (início, listas, página do jogo) e a busca
 ├── Energy-exe/             jogo: Energy.exe (o conteúdo fica em Energy-exe/js/dados/)
 ├── Fragmentos/             jogo: Fragmentados
-└── Eu-te-darei-o-sol/      jogo: Eu te darei o sol
+├── Eu-te-darei-o-sol/      jogo: Eu te darei o sol
+└── Por-Onde-Andei/         app: por onde andei (globo com as viagens)
 ```
 
 ## Textos do site

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>por onde andei</title>
+  <meta name="description" content="Um globo com alfinetes nos lugares onde o Bernardo já esteve, cada um com suas fotos, vídeos e anotações.">
+  <meta name="theme-color" content="#0c0b10">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%230c0b10'/><circle cx='32' cy='32' r='20' fill='none' stroke='%23d4ff3f' stroke-width='4'/><circle cx='38' cy='24' r='7' fill='%23d4ff3f'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <canvas id="globo" aria-label="Globo. Arraste para girar, use a rodinha para aproximar."></canvas>
+
+  <!-- topo: nome, contagem e busca -->
+  <header class="topo">
+    <div class="marca">
+      <span class="marca-icone" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.8 2.6 2.8 14.4 0 17M12 3.5c-2.8 2.6-2.8 14.4 0 17"/></svg>
+      </span>
+      <div>
+        <strong class="marca-nome">por onde andei</strong>
+        <span class="marca-contagem" id="contagem">nenhum alfinete ainda</span>
+      </div>
+      <button class="botao-icone so-celular" id="botao-lista" aria-label="Meus lugares" aria-expanded="false">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+      </button>
+    </div>
+
+    <div class="busca">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+      <input id="busca" type="search" placeholder="buscar uma cidade do mundo" autocomplete="off" spellcheck="false" aria-label="Buscar cidade" aria-controls="busca-resultados">
+      <ul class="busca-resultados" id="busca-resultados" role="listbox" hidden></ul>
+    </div>
+  </header>
+
+  <!-- lista dos lugares visitados -->
+  <aside class="lista" id="lista">
+    <h2 class="rotulo">meus lugares</h2>
+    <ul class="lista-itens" id="lista-itens"></ul>
+    <p class="lista-vazia">
+      Gire o globo e <strong>clique em qualquer lugar</strong>, ou busque uma cidade lá em cima, para fincar o primeiro alfinete.
+    </p>
+  </aside>
+
+  <!-- controles do globo e cópia de segurança -->
+  <div class="controles">
+    <button class="botao-icone" id="girar" aria-pressed="true" title="Girar sozinho">
+      <svg class="ico-pausa" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg>
+      <svg class="ico-girar" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7M20 4v5h-5"/></svg>
+    </button>
+    <button class="botao-icone" id="mais-zoom" title="Aproximar"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="botao-icone" id="menos-zoom" title="Afastar"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+    <button class="botao-icone" id="visao-geral" title="Ver o globo inteiro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.8 2.6 2.8 14.4 0 17M12 3.5c-2.8 2.6-2.8 14.4 0 17"/></svg></button>
+    <span class="controles-divisa"></span>
+    <button class="botao-icone" id="exportar" title="Salvar uma cópia de tudo"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></button>
+    <button class="botao-icone" id="importar" title="Abrir uma cópia salva"><svg viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M5 20h14"/></svg></button>
+    <input type="file" id="arquivo-copia" accept="application/json,.json" hidden>
+  </div>
+
+  <!-- balão que aparece ao clicar no globo -->
+  <div class="balao" id="balao" hidden></div>
+  <div class="etiqueta" id="etiqueta" hidden></div>
+
+  <!-- a galeria de um lugar -->
+  <section class="painel" id="painel" aria-hidden="true" aria-label="Galeria do lugar">
+    <div class="painel-capa" id="painel-capa">
+      <button class="botao-icone fechar" id="fechar-painel" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+
+    <div class="painel-cabeca">
+      <span class="rotulo" id="painel-coord"></span>
+      <input class="painel-nome" id="painel-nome" aria-label="Nome do lugar" maxlength="80">
+      <p class="painel-sub" id="painel-sub"></p>
+      <label class="quando">
+        <span class="rotulo">quando fui</span>
+        <input id="painel-quando" placeholder="ex.: julho de 2024" maxlength="60">
+      </label>
+    </div>
+
+    <nav class="abas" role="tablist">
+      <button role="tab" data-aba="midias">Fotos e vídeos <i id="qtd-midias"></i></button>
+      <button role="tab" data-aba="notas">Anotações <i id="qtd-notas"></i></button>
+    </nav>
+
+    <div class="painel-corpo">
+      <div class="aba" id="aba-midias">
+        <div class="grade" id="grade"></div>
+        <p class="dica">dá para arrastar fotos e vídeos direto para cá</p>
+        <input type="file" id="arquivo-midia" accept="image/*,video/*" multiple hidden>
+      </div>
+
+      <div class="aba" id="aba-notas" hidden>
+        <form class="nova-nota" id="form-nota">
+          <textarea id="texto-nota" rows="3" placeholder="o que você não quer esquecer desse lugar?"></textarea>
+          <button class="botao" type="submit">guardar anotação</button>
+        </form>
+        <ol class="notas" id="notas"></ol>
+      </div>
+    </div>
+
+    <footer class="painel-pe">
+      <button class="botao-perigo" id="apagar-lugar">apagar este lugar</button>
+    </footer>
+    <div class="soltar" aria-hidden="true">solte para guardar</div>
+  </section>
+
+  <!-- visor de foto/vídeo em tela cheia -->
+  <div class="visor" id="visor" hidden>
+    <button class="botao-icone visor-fechar" id="visor-fechar" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="botao-icone visor-seta ant" id="visor-ant" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="botao-icone visor-seta prox" id="visor-prox" aria-label="Próxima"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <figure class="visor-palco" id="visor-palco"></figure>
+    <div class="visor-barra">
+      <span class="rotulo" id="visor-contagem"></span>
+      <input id="visor-legenda" placeholder="escreva uma legenda…" maxlength="200">
+      <div class="visor-acoes">
+        <button class="botao-fino" id="visor-capa">usar como capa</button>
+        <a class="botao-fino" id="visor-baixar" download>baixar</a>
+        <button class="botao-fino perigo" id="visor-apagar">apagar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+  <script src="js/banco.js"></script>
+  <script src="js/globo.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
