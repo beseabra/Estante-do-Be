@@ -50,9 +50,9 @@ window.JOGOS = [
     jogadores: "1",
     controles: "Mouse ou toque",
     resumo:
-      "Um globo que gira, com um alfinete em cada lugar onde você já esteve. Cada alfinete guarda as fotos, os vídeos e as anotações daquela viagem.",
+      "Um globo 3D de satélite com um alfinete em cada lugar onde você já esteve. Cada alfinete guarda as fotos, os vídeos e as anotações daquela viagem.",
     descricao: [
-      "Gire o globo, busque qualquer cidade do mundo ou clique num ponto do mapa para fincar um alfinete. Os países por onde você passou vão ficando tingidos.",
+      "Um globo 3D de satélite, com as montanhas em relevo e as divisas de países e estados. Busque qualquer cidade do mundo ou clique num ponto do mapa para fincar um alfinete: a área da cidade fica pintada de vermelho.",
       "Cada lugar vira uma galeria: fotos e vídeos (é só arrastar os arquivos), legendas, uma foto de capa, quando você foi e anotações para não esquecer os detalhes.",
       "Tudo fica guardado no seu próprio navegador, sem cadastro. Um botão salva uma cópia de tudo num arquivo para não perder nada.",
     ],

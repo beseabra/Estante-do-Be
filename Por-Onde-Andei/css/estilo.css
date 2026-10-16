@@ -79,11 +79,39 @@ svg.cheio { fill: currentColor; stroke: none; }
   inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
-  cursor: grab;
-  touch-action: none;
+  background: transparent;
 }
-#globo.arrastando { cursor: grabbing; }
+#globo .maplibregl-canvas { outline: none; }
+
+/* alfinete vermelho */
+.alfinete {
+  width: 24px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+}
+.alfinete svg { width: 24px; height: 34px; overflow: visible; transition: transform .15s; transform-origin: 50% 100%; }
+.alfinete:hover svg, .alfinete.ativo svg { transform: scale(1.3); }
+.alfinete .sombra { fill: rgba(0,0,0,.45); stroke: none; }
+.alfinete .agulha { stroke: #ecebe6; stroke-width: 1.8; }
+.alfinete .cabeca { fill: #e8262a; stroke: #7d0e0e; stroke-width: 1; }
+.alfinete .brilho { fill: rgba(255,255,255,.55); stroke: none; }
+.alfinete.ativo .cabeca { stroke: #fff; stroke-width: 2; }
+/* atrás do planeta o mapa deixa o alfinete transparente; aí ele também não pode ser clicado */
+.alfinete[style*="opacity: 0;"] { pointer-events: none; }
+
+/* créditos do mapa (satélite, relevo), discretos no canto */
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib {
+  margin: 0 0 12px 12px;
+  background: var(--vidro);
+  color: var(--suave);
+  font-size: 11px;
+}
+.maplibregl-ctrl-attrib a { color: var(--suave); }
+.maplibregl-ctrl-attrib-button { filter: invert(1); }
 
 /* ---------- botões ---------- */
 .botao {
@@ -238,7 +266,7 @@ svg.cheio { fill: currentColor; stroke: none; }
 }
 .busca-resultados li.marcado { background: var(--painel-2); }
 .res-icone { color: var(--suave); display: grid; }
-.res-icone.meu { color: var(--lima); }
+.res-icone.meu { color: #ff5a4f; }
 .res-texto { flex: 1; min-width: 0; }
 .res-texto strong { display: block; font-weight: 600; }
 .res-texto small, .item-texto small {

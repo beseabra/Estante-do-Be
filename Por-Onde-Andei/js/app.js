@@ -53,6 +53,7 @@
     ligarVisor();
     ligarControles();
     ligarTeclado();
+    completarAreas();
   }
 
   function atualizar() {
@@ -174,11 +175,17 @@
     if (b.dataset.acao === 'fincar' && candidato) criarLugar(candidato);
   });
 
+  // pergunta ao OpenStreetMap o nome e o contorno da cidade naquele ponto
+  async function consultarPonto(lon, lat) {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=10`
+      + '&polygon_geojson=1&polygon_threshold=0.0003&accept-language=pt-BR';
+    return (await fetch(url)).json();
+  }
+
   async function nomeDoLugar(lon, lat) {
     try {
-      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=10&accept-language=pt-BR`;
-      const j = await (await fetch(url)).json();
-      if (j.error) return { nome: 'Algum lugar no mar', regiao: '', pais: '', codigo: '' };
+      const j = await consultarPonto(lon, lat);
+      if (j.error) return { nome: 'Algum lugar no mar', regiao: '', pais: '', codigo: '', area: false };
       const a = j.address || {};
       return {
         nome: a.city || a.town || a.village || a.municipality || a.county || a.state_district || a.state || j.name || 'Lugar sem nome',
@@ -191,6 +198,85 @@
     }
   }
 
+  // o contorno vem no sentido anti-horário (padrão GeoJSON) e o d3 quer
+  // horário; sem virar, ele pintaria o mundo inteiro menos a cidade.
+  // false = não tem contorno (o globo desenha um círculo pequeno)
+  function arrumarArea(g) {
+    const polys = g?.type === 'Polygon' ? [g.coordinates] : g?.type === 'MultiPolygon' ? g.coordinates : null;
+    if (!polys) return false;
+    const certos = polys.map((p) => {
+      const virar = d3.geoArea({ type: 'Polygon', coordinates: p }) > 2 * Math.PI;
+      return p.map((anel) => (virar ? anel.slice().reverse() : anel).map(([x, y]) => [+x.toFixed(4), +y.toFixed(4)]));
+    });
+    const area = { type: 'MultiPolygon', coordinates: certos };
+    // se o "município" for gigante (um estado inteiro, por exemplo), melhor não pintar
+    return d3.geoArea(area) < 0.003 ? area : false;
+  }
+
+  const esperar = (ms) => new Promise((ok) => setTimeout(ok, ms));
+  const VERSAO_AREA = 3; // subir quando mudar o jeito de achar o contorno
+
+  const KM2 = 1 / (6371 * 6371); // 1 km² em esferorradianos (a unidade do d3.geoArea)
+
+  // acha o contorno da cidade em duas tentativas:
+  //  1. busca pelo nome e, entre as divisões que contêm o ponto, fica com a
+  //     menor (Lisboa → o município, e não o distrito);
+  //  2. se a busca só achou algo enorme (Cusco → só o estado), pergunta pelo
+  //     ponto, que dá o distrito da cidade. Não é a primeira opção porque, em
+  //     Lisboa, o ponto devolve só o bairro.
+  // Sem internet nas duas, dá erro, para tentar de novo outra vez.
+  async function areaDaCidade(l) {
+    let daBusca = null, tamanho = Infinity, falhas = 0;
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(l.nome)}`
+        + (l.codigo ? `&countrycodes=${l.codigo.toLowerCase()}` : '')
+        + '&polygon_geojson=1&polygon_threshold=0.0003&limit=10&accept-language=pt-BR';
+      for (const r of await (await fetch(url)).json()) {
+        const tipo = r.category ?? r.class; // no formato jsonv2 o campo se chama category
+        if (tipo !== 'boundary' && tipo !== 'place') continue;
+        const area = arrumarArea(r.geojson);
+        if (!area || !d3.geoContains(area, [l.lon, l.lat])) continue;
+        const t = d3.geoArea(area);
+        if (t < tamanho) { tamanho = t; daBusca = area; }
+      }
+      if (daBusca && tamanho < KM2 * 2000) return daBusca;
+    } catch {
+      falhas++;
+    }
+
+    try {
+      await esperar(1100);
+      const j = await consultarPonto(l.lon, l.lat);
+      const doPonto = j.error ? false : arrumarArea(j.geojson);
+      if (doPonto && d3.geoArea(doPonto) > KM2 * 5 && d3.geoArea(doPonto) < tamanho) return doPonto;
+    } catch {
+      falhas++;
+    }
+    if (falhas === 2) throw new Error('sem internet');
+    return daBusca || false;
+  }
+
+  async function buscarArea(l) {
+    try {
+      l.area = await areaDaCidade(l);
+      l.areaV = VERSAO_AREA;
+      await Banco.salvarLugar(l);
+      Globo.definirPinos(lugares);
+      if (aberto?.id === l.id) Globo.voarParaPino(l.id); // enquadra a cidade de verdade
+    } catch {
+      // sem internet agora: tenta na próxima vez que abrir
+    }
+  }
+
+  // lugares antigos (ou criados pela busca) ainda sem contorno;
+  // um por vez, com calma, que o OpenStreetMap pede no máximo 1 por segundo
+  async function completarAreas() {
+    for (const l of lugares.filter((x) => x.areaV !== VERSAO_AREA)) {
+      await buscarArea(l);
+      await esperar(1100);
+    }
+  }
+
   async function criarLugar(c) {
     const l = {
       id: novoId(),
@@ -200,6 +286,7 @@
       codigo: c.codigo || '',
       lat: c.lat,
       lon: c.lon,
+      area: c.area,
       quando: '',
       notas: [],
       capaId: null,
@@ -215,6 +302,7 @@
     lugares.push(l);
     atualizar();
     aviso(`Alfinete fincado em ${l.nome}`);
+    await buscarArea(l); // o contorno da cidade, para pintar no globo
     abrirLugar(l);
   }
 
@@ -276,7 +364,7 @@
       if (perto) return abrirLugar(perto);
       fecharPainel();
       esconderBalao();
-      Globo.voarPara(c.lon, c.lat, 3).then(() => {
+      Globo.voarPara(c.lon, c.lat, 10, 40).then(() => {
         const p = Globo.projetar(c.lon, c.lat);
         if (p) mostrarBalao({ ...c, x: p[0], y: p[1] - 20 });
       });
@@ -336,7 +424,7 @@
     $('#painel').setAttribute('aria-hidden', 'false');
     Globo.selecionar(l.id);
     Globo.definirFolga(folgaDoPainel());
-    Globo.voarPara(l.lon, l.lat);
+    Globo.voarParaPino(l.id);
     desenharCabeca();
     desenharNotas();
     trocarAba(aba);
@@ -811,6 +899,9 @@
     });
     $('#mais-zoom').addEventListener('click', () => Globo.zoomPor(1.6));
     $('#menos-zoom').addEventListener('click', () => Globo.zoomPor(1 / 1.6));
+    $('#relevo').addEventListener('click', (ev) => {
+      ev.currentTarget.setAttribute('aria-pressed', Globo.alternarInclinacao());
+    });
     $('#visao-geral').addEventListener('click', () => { fecharPainel(); esconderBalao(); Globo.visaoGeral(); });
     $('#exportar').addEventListener('click', exportar);
     $('#importar').addEventListener('click', () => $('#arquivo-copia').click());
