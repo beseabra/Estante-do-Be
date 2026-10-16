@@ -93,6 +93,7 @@ F.Criacao = {
         { t: 'Próximo: contrato', primario: true, fecha: false, fn: () => {
           if (!st.nome) { F.Som.erro(); inp.focus(); F.UI.toast('⚠ CAMPO OBRIGATÓRIO', 'O RH precisa do seu nome. Para os 14 formulários.'); return; }
           if (!st.perfil) { F.Som.erro(); F.UI.toast('⚠ CAMPO OBRIGATÓRIO', 'Escolha um perfil.'); return; }
+          if (F.UI.topo() !== w) return; // o contrato já está aberto
           this.contrato(st, L, w);
         } },
       ],

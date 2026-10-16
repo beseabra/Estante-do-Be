@@ -31,7 +31,13 @@ F.UI = {
     document.getElementById('btn-email').addEventListener('click', () => { this.fecharMenu(); F.Emails.abrir(); });
     document.addEventListener('pointerdown', (e) => { if (!this.menuEl.hidden && !this.menuEl.contains(e.target) && e.target.id !== 'btn-iniciar') this.fecharMenu(); });
     this.promptEl.addEventListener('click', () => { const a = F.Mundo.alvo; if (a && !this.aberta()) { F.Mundo.olharPara(a); F.Interacao.com(a); } });
-    this.rastreioEl.addEventListener('click', () => { this.rastreioEl.classList.toggle('fechado'); this.rastreioEl.classList.toggle('aberto'); });
+    // no celular o post-it começa recolhido (abre com .aberto); no computador começa aberto (recolhe com .fechado)
+    this.rastreioEl.addEventListener('click', () => {
+      const el = this.rastreioEl, pequeno = window.matchMedia('(max-width: 760px), (max-height: 500px)').matches;
+      const abrir = pequeno ? !el.classList.contains('aberto') : el.classList.contains('fechado');
+      el.classList.toggle('aberto', abrir && pequeno);
+      el.classList.toggle('fechado', !abrir && !pequeno);
+    });
 
     // teclado dentro das janelas
     window.addEventListener('keydown', (e) => {

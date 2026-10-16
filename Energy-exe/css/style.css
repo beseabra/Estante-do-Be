@@ -76,7 +76,7 @@ input, select { font: inherit; }
 #janelas:empty { display: none; }
 #janelas.tem { pointer-events: auto; background: rgba(0, 0, 40, 0.18); }
 .win {
-  grid-area: 1 / 1; pointer-events: auto;
+  grid-area: 1 / 1; pointer-events: auto; position: relative; /* sem isso a janela de trás (com filter) é pintada por cima da nova */
   width: min(640px, 100%); max-height: 100%; display: flex; flex-direction: column;
   background: var(--cinza);
   border: 2px solid; border-color: var(--cinza-claro) var(--preto) var(--preto) var(--cinza-claro);
