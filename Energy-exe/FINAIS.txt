@@ -1,0 +1,107 @@
+ENERGY.EXE · OS 10 FINAIS
+==========================
+
+(Contém spoilers. Os finais que você já viu ficam guardados no navegador
+e aparecem no ícone "Finais" da área de trabalho.)
+
+O jogo dura 3 meses (30 dias). Alguns finais podem acontecer a qualquer
+momento. Os outros são decididos no fim do dia 30, conforme o seu cargo
+e o que você conquistou.
+
+
+------------------------------------------------------------
+FINAIS QUE PODEM ACONTECER A QUALQUER MOMENTO
+------------------------------------------------------------
+
+1. GAME OVER (Demissão) · tela azul
+   Como chegar:
+   - Deixar a reputação (⭐) chegar a 0, ou
+   - Escolher "Pedir demissão" na conversa com a Patrícia (RH),
+     depois de bater no chefe.
+   "A empresa encontrou um problema e precisou desligar você."
+
+2. MODO AVIÃO · tela azul
+   Como chegar: deixar o estresse chegar a 100.
+   "O seu corpo pediu férias e não aceitou 'vamos alinhar'."
+
+   Observação: com o perfil secreto Sobrevivente, esses dois finais
+   não acontecem. A reputação e o estresse "travam" antes do limite.
+   (Para liberar o perfil, clique no perfil "???" na criação de
+   personagem.)
+
+3. EMPREENDEDOR(A)
+   Como chegar: a partir do dia 12, com R$ 9.000 ou mais e estresse
+   50 ou mais, pode aparecer à noite, em casa, "Uma ideia às 2h da
+   manhã". Escolha "Pedir demissão e empreender".
+
+4. AUTOMAÇÃO
+   Como chegar: no computador da sua mesa, crie automações que dão
+   certo. Quando passar de 6 automações bem-sucedidas, na manhã
+   seguinte suas tarefas estão todas feitas "por você" e o RH oferece
+   um cargo novo.
+   Dica: o perfil Técnico, a ajuda do Davi e a regra do Excel aumentam
+   a chance de a automação funcionar.
+
+
+------------------------------------------------------------
+FINAIS DO DIA 30 (avaliação final)
+------------------------------------------------------------
+Se você chegar ao fim do trimestre, o jogo verifica nesta ordem
+e mostra o primeiro que servir:
+
+5. FINAL SECRETO 🏆
+   Precisa de tudo ao mesmo tempo:
+   - Cargo de nível 3 ou mais (Coordenador(a), Especialista,
+     Automatizador(a) ou acima)
+   - Ter conseguido o aumento
+   - Estresse 40 ou menos
+   - Reputação 80 ou mais
+   - Relação de pelo menos +15 com TODOS os 10 departamentos
+     (veja em Iniciar > Contatos)
+
+6. PROMOÇÃO 🤑 (trilha de gestão)
+   Chegar a Gerente ou Diretor(a).
+   Caminho: Analista > Coordenador(a) > Gerente > Diretor(a).
+   Para virar Coordenador(a): influência 30 e reputação 50.
+
+7. ESPECIALISTA SÊNIOR 🧠 (trilha técnica)
+   Chegar a Especialista Sênior.
+   Caminho: Analista > Especialista > Especialista Sênior.
+   Para virar Especialista: produtividade 55.
+
+8. CAMINHO ALTERNATIVO 📊
+   Chegar a "Pessoa que todo mundo chama quando o Excel quebra".
+   Caminho: Analista > Automatizador(a) > Excel.
+   Para virar Automatizador(a): 3 automações funcionando.
+   (Cuidado: passar de 6 automações leva ao final Automação antes.)
+
+9. AUMENTO 💰
+   Não chegou ao topo de nenhuma trilha, mas conseguiu o aumento.
+   Como conseguir o aumento: peça ao Marcos ("pedir aumento") e vá
+   à reunião de remuneração. Para ser aprovado:
+   - reputação 55 ou mais
+   - pelo menos 1 investigação concluída
+   - pelo menos 2 respostas boas e no máximo 1 ruim na reunião
+   - o Marcos de bom humor no dia (ou ter uma "outra proposta" de um
+     recrutador, que pode aparecer à noite depois que você atualiza o
+     LinkedIn no computador da mesa)
+   Se for negado, só dá para tentar de novo no mês seguinte.
+
+10. SOBREVIVÊNCIA ☕
+    Chegou ao dia 30 sem nenhuma das conquistas acima.
+    "Ninguém sabe exatamente o que você fez. Nem você."
+
+
+------------------------------------------------------------
+COMO FUNCIONAM AS PROMOÇÕES
+------------------------------------------------------------
+A avaliação de desempenho acontece nos dias 10, 20 e 30. A nota
+usa reputação, produtividade, influência e tarefas do mês. Estresse
+acima de 70 desconta. Notas mínimas por nível:
+
+   Analista Júnior 30 · Analista 40 · nível 3: 52 · nível 4: 62
+   · Diretor(a): 76
+
+Também dá para pedir promoção ao Marcos fora da avaliação (precisa
+de uma nota um pouco acima do mínimo) ou ir direto ao Dr. Augusto,
+na Diretoria (arriscado).
