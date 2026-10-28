@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Pessoal, Urgente! A Fuga do 01</title>
+
+  <!-- Fontes (sem internet, o jogo usa Impact e Arial) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="stage">
+    <canvas id="game" aria-label="Pessoal, Urgente! A Fuga do 01"></canvas>
+
+    <!-- Botões de toque (aparecem só no celular) -->
+    <div id="touch">
+      <div class="lado">
+        <button data-act="slide" aria-label="abaixar">&#9660;</button>
+        <button data-act="special" class="esp" aria-label="especial">L</button>
+      </div>
+      <div class="lado">
+        <button data-act="shoot" aria-label="atirar">&#128226;</button>
+        <button data-act="jump" class="grande" aria-label="pular">&#9650;</button>
+      </div>
+    </div>
+    <button id="m-pausa" aria-label="pausa"><i></i><i></i></button>
+  </main>
+
+  <!--
+    A ORDEM DOS SCRIPTS IMPORTA:
+    config (textos e sons) -> núcleo -> som -> desenhos -> cenas -> main
+  -->
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/arte.js"></script>
+  <script src="js/cenarios.js"></script>
+
+  <script src="js/cenas/titulo.js"></script>
+  <script src="js/cenas/zap.js"></script>
+  <script src="js/cenas/corrida.js"></script>
+  <script src="js/cenas/urna.js"></script>
+  <script src="js/cenas/final.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

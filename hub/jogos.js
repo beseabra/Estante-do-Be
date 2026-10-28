@@ -33,6 +33,40 @@ window.SITE = {
 
 window.JOGOS = [
   {
+    id: "fuga-do-01",
+    titulo: "Pessoal, Urgente! A Fuga do 01",
+    pasta: "Fuga-do-01/",
+    capa: "hub/capas/fuga-do-01.png",
+    capturas: [
+      "hub/capturas/fuga-1.png",
+      "hub/capturas/fuga-4.png",
+      "hub/capturas/fuga-3.png",
+      "hub/capturas/fuga-5.png",
+      "hub/capturas/fuga-2.png",
+      "hub/capturas/fuga-6.png",
+    ],
+    cor: "#e8222d",
+    status: "teste",
+    destaque: true,
+    versao: "0.1 beta",
+    data: "2026-10-28",
+    duracao: "~15 minutos",
+    jogadores: "1",
+    controles: "Teclado ou toque",
+    resumo:
+      "Paródia da eleição de 2026. O 01 está fugindo, e você corre atrás dele como Lula ou Janones, cumprindo as missões que chegam pelo canal do zap.",
+    descricao: [
+      "Cinco fases de perseguição: o gabinete fantasma da ALERJ, a loja de chocolate, a casa em Atibaia (cadê o Queiroz?), a mansão de 6 milhões e o aeroporto, onde ele tenta embarcar pra Miami.",
+      'No meio da corrida o Janones manda missões ("PESSOAL, URGENTE!"). Arremesse picanha, dispare áudios urgentes, desminta fake news, exorcize assessores fantasmas e use o FAZ O L ou o Exército do Lula para limpar a tela.',
+      "No fim aparece o Japonês da Federal, e a última missão é votar na urna. O final muda conforme o voto.",
+    ],
+    tags: ["Corrida", "Humor", "Paródia", "Política"],
+    notas: [
+      "Primeira versão: 5 fases, 2 personagens, missões do Janones, urna eletrônica e 4 finais.",
+      "Sons e músicas gerados pelo jogo; dá para trocar pelos áudios de verdade na pasta sons/.",
+    ],
+  },
+  {
     id: "por-onde-andei",
     titulo: "por onde andei",
     pasta: "Por-Onde-Andei/",
