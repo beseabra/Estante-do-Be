@@ -1,0 +1,30 @@
+SONS DE VERDADE
+===============
+
+Coloque aqui os arquivos com estes nomes (mp3). O jogo usa os que encontrar
+e gera sozinho os que faltarem. Para usar outro nome ou formato (.ogg, .wav),
+troque o caminho em js/config.js, na lista G.ARQUIVOS.
+
+BORDÕES E EFEITOS
+  pessoal-urgente.mp3      Janones: "Pessoal, urgente!" (toca em toda missão nova)
+  missao-cumprida.mp3      Janones comemorando
+  missao-falhou.mp3        Janones decepcionado
+  faz-o-l.mp3              "Faz o L!" (especial do Lula)
+  exercito.mp3             especial do Janones (Exército do Lula)
+  taokey.mp3               "Tá ok?"
+  perseguicao.mp3          Flávio: "É perseguição!" (quando você pega ele)
+  queiroz.mp3              quando o Queiroz aparece
+  japones-da-federal.mp3   a marchinha "Ai, meu Deus, me dei mal..." (final)
+  urna.mp3                 o barulho da urna ao confirmar
+  buzina.mp3               buzina de carreata
+  trombone-triste.mp3      quando o 01 foge
+  zap.mp3                  notificação de mensagem
+
+MÚSICAS (tocam em loop)
+  lula-la.mp3              tela de título
+  fase1.mp3 ... fase5.mp3  uma para cada fase
+  urna-fundo.mp3           na urna
+  vitoria.mp3              final com o 13
+  derrota.mp3              quando perde
+
+Dica: áudios curtos (1 a 3 segundos) funcionam melhor para os bordões.

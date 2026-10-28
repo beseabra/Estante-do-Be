@@ -21,6 +21,7 @@ Estante-do-Be/
 │   └── js/
 │       ├── efeitos.js      inclinação 3D, transição, avisos, confete
 │       └── site.js         as páginas (início, listas, página do jogo) e a busca
+├── Fuga-do-01/             jogo: Pessoal, Urgente! A Fuga do 01
 ├── Energy-exe/             jogo: Energy.exe (o conteúdo fica em Energy-exe/js/dados/)
 ├── Fragmentos/             jogo: Fragmentados
 ├── Eu-te-darei-o-sol/      jogo: Eu te darei o sol
