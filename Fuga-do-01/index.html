@@ -19,12 +19,11 @@
     <!-- Botões de toque (aparecem só no celular) -->
     <div id="touch">
       <div class="lado">
-        <button data-act="slide" aria-label="abaixar">&#9660;</button>
-        <button data-act="special" class="esp" aria-label="especial">L</button>
+        <button data-act="left" aria-label="esquerda">&#9664;</button>
+        <button data-act="right" aria-label="direita">&#9654;</button>
       </div>
       <div class="lado">
-        <button data-act="shoot" aria-label="atirar">&#128226;</button>
-        <button data-act="jump" class="grande" aria-label="pular">&#9650;</button>
+        <button data-act="jump" class="grande" aria-label="ação">&#9679;</button>
       </div>
     </div>
     <button id="m-pausa" aria-label="pausa"><i></i><i></i></button>
@@ -38,11 +37,24 @@
   <script src="js/core.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/arte.js"></script>
-  <script src="js/cenarios.js"></script>
+
+  <!-- O motor dos microgames vem antes deles (eles se registram nele) -->
+  <script src="js/cenas/rodada.js"></script>
+
+  <!-- Os microgames: um arquivo para cada -->
+  <script src="js/micro/desmente.js"></script>
+  <script src="js/micro/algema.js"></script>
+  <script src="js/micro/queiroz.js"></script>
+  <script src="js/micro/salarios.js"></script>
+  <script src="js/micro/picanha.js"></script>
+  <script src="js/micro/compartilha.js"></script>
+  <script src="js/micro/vota.js"></script>
+  <script src="js/micro/boletos.js"></script>
+  <script src="js/micro/solda.js"></script>
+  <script src="js/micro/passinho.js"></script>
 
   <script src="js/cenas/titulo.js"></script>
-  <script src="js/cenas/zap.js"></script>
-  <script src="js/cenas/corrida.js"></script>
+  <script src="js/cenas/chefao.js"></script>
   <script src="js/cenas/urna.js"></script>
   <script src="js/cenas/final.js"></script>
 

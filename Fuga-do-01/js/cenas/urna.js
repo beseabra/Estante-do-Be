@@ -26,7 +26,7 @@ G.CenaUrna = class {
     this.teclas.push({ id: 'confirma', x: kx + 130, y: by - 6, w: 72, h: 46, rot: 'CONFIRMA', cor: '#2bb24c', txt: '#111' });
     this.apertada = null;
   }
-  enter() { G.Audio.musica('urna'); G.Voz.falar(this.heroi === 'lula' ? 'Agora é com você, companheiro. Vota!' : 'Pessoal, urgente! Vai votar!', this.heroi, true); }
+  enter() { G.Audio.musica('urna'); }
 
   candidato() { return G.URNA[this.num] || null; }
 
@@ -52,10 +52,8 @@ G.CenaUrna = class {
   }
 
   comenta() {
-    const n = this.num;
-    if (n === '13') G.Voz.falar(this.heroi === 'lula' ? 'É isso, companheiro!' : 'Isso! Compartilha o print!', this.heroi, true);
-    else if (n === '22') G.Voz.falar('Tem certeza? Ele tá algemado ali do lado.', this.heroi, true);
-    else if (n === '17') G.Voz.falar('Esse número é de 2018, acorda!', this.heroi, true);
+    if (this.num === '13') G.Audio.tocar(this.heroi === 'lula' ? 'faz-o-l' : 'urgente3');
+    else if (this.num === '22') G.Audio.tocar('vine-boom');
   }
 
   update(dt) {

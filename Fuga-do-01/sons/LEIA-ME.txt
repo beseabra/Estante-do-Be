@@ -1,30 +1,39 @@
-SONS DE VERDADE
-===============
+SONS
+====
 
-Coloque aqui os arquivos com estes nomes (mp3). O jogo usa os que encontrar
-e gera sozinho os que faltarem. Para usar outro nome ou formato (.ogg, .wav),
-troque o caminho em js/config.js, na lista G.ARQUIVOS.
+Áudios baixados do myinstants.com (volume igualado). Para trocar um som, substitua
+o arquivo mantendo o nome, ou mude o caminho em js/config.js (lista G.ARQUIVOS).
+Se um arquivo faltar, o jogo gera um som parecido sozinho.
 
-BORDÕES E EFEITOS
-  pessoal-urgente.mp3      Janones: "Pessoal, urgente!" (toca em toda missão nova)
-  missao-cumprida.mp3      Janones comemorando
-  missao-falhou.mp3        Janones decepcionado
-  faz-o-l.mp3              "Faz o L!" (especial do Lula)
-  exercito.mp3             especial do Janones (Exército do Lula)
-  taokey.mp3               "Tá ok?"
-  perseguicao.mp3          Flávio: "É perseguição!" (quando você pega ele)
-  queiroz.mp3              quando o Queiroz aparece
-  japones-da-federal.mp3   a marchinha "Ai, meu Deus, me dei mal..." (final)
-  urna.mp3                 o barulho da urna ao confirmar
-  buzina.mp3               buzina de carreata
-  trombone-triste.mp3      quando o 01 foge
-  zap.mp3                  notificação de mensagem
+JANONES (um diferente a cada missão; entre aspas, o nome do áudio no myinstants)
+  pessoal-urgente.mp3          "PESSOAL URGENTE"
+  pessoal-urgente-explode.mp3  "PESSOAL URGENTE EXPLODE"
+  janones-avisa.mp3            "Janones - avisa pra todo mundo"
+  janones-voltamos.mp3         "janones urgente voltamos"
+  janones-explode.mp3          "Janones - explode esse video"
+  missao-cumprida.mp3          "missão dada é missão cumprida"
 
-MÚSICAS (tocam em loop)
-  lula-la.mp3              tela de título
-  fase1.mp3 ... fase5.mp3  uma para cada fase
-  urna-fundo.mp3           na urna
-  vitoria.mp3              final com o 13
-  derrota.mp3              quando perde
+ACERTOS E ERROS
+  acertou.mp3                  Faustão: "Acertou!"
+  errou.mp3                    Faustão: "Errou!"
+  vine-boom.mp3                o "boom"
+  buzina.mp3                   buzina (quando acelera)
+  zap.mp3                      notificação do zap
 
-Dica: áudios curtos (1 a 3 segundos) funcionam melhor para os bordões.
+BORDÕES
+  faz-o-l.mp3, faz-o-l-vinheta.mp3
+  picanha.mp3                  Lula: picanha e cerveja
+  companheiro.mp3              Lula: "chora não, companheiro" (derrota)
+  taokey.mp3                   "Tá ok"
+  queiroz.mp3                  "Ô Queiroz"
+  risada-bolsonaro.mp3         quando o 01 te acerta
+  perseguicao.mp3              antes do chefão
+  policia-federal.mp3          "Alô, Polícia Federal!"
+  sirene-pf.mp3                sirene
+  urna.mp3                     o confirma da urna
+  trombone.mp3                 derrota
+
+MÚSICAS
+  lula-la.mp3                  tela de título ("Lula lá, brilha uma estrela")
+  jingle-flavio.mp3            no chefão (o jingle do 01)
+  As outras músicas são geradas pelo jogo.

@@ -32,6 +32,16 @@ G.U = {
   ease: (t) => 1 - Math.pow(1 - G.U.clamp(t, 0, 1), 3),
 };
 
+// um número "aleatório" fixo por índice (para enfeites não mudarem a cada quadro)
+G.semente = (i) => { const s = Math.sin(i * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+
+G.degrade = function (ctx, cores, y0 = 0, y1 = G.H) {
+  const g = ctx.createLinearGradient(0, y0, 0, y1);
+  cores.forEach((c, i) => g.addColorStop(i / (cores.length - 1), c));
+  ctx.fillStyle = g;
+  ctx.fillRect(0, y0, G.W, y1 - y0);
+};
+
 // ---------- guardar progresso (pode falhar em aba anônima) ----------
 G.Save = {
   ler(k, padrao) {
@@ -103,6 +113,7 @@ G.Input = {
   pressed: {},
   digitos: [],        // números digitados (para a urna)
   toque: null,        // último toque/clique na tela, em coordenadas do jogo
+  ponteiro: { x: 480, y: 270, down: false }, // mouse/dedo agora (para segurar e arrastar)
   MAPA: {
     Space: 'jump', ArrowUp: 'jump', KeyW: 'jump', KeyZ: 'jump',
     ArrowDown: 'slide', KeyS: 'slide',
@@ -110,7 +121,7 @@ G.Input = {
     KeyC: 'special', KeyK: 'special', KeyE: 'special',
     Enter: 'ok', NumpadEnter: 'ok',
     Escape: 'back', Backspace: 'corrige',
-    KeyP: 'pause', KeyM: 'mute', KeyV: 'voice',
+    KeyP: 'pause', KeyM: 'mute',
     ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right',
   },
 
@@ -132,12 +143,18 @@ G.Input = {
     window.addEventListener('blur', () => { this.down = {}; });
 
     // clique/toque na tela: guarda a posição em coordenadas do jogo
+    const pos = (e) => {
+      const r = canvas.getBoundingClientRect();
+      return { x: (e.clientX - r.left) / r.width * G.W, y: (e.clientY - r.top) / r.height * G.H };
+    };
     canvas.addEventListener('pointerdown', (e) => {
       G.Audio.init();
-      const r = canvas.getBoundingClientRect();
-      this.toque = { x: (e.clientX - r.left) / r.width * G.W, y: (e.clientY - r.top) / r.height * G.H };
+      this.toque = pos(e);
+      Object.assign(this.ponteiro, this.toque, { down: true });
       this.pressed.tap = true;
     });
+    window.addEventListener('pointermove', (e) => { Object.assign(this.ponteiro, pos(e)); });
+    window.addEventListener('pointerup', () => { this.ponteiro.down = false; });
   },
 
   // apertou agora? (só vale uma vez por aperto)
@@ -180,11 +197,6 @@ G.Mobile = {
     }
     document.getElementById('m-pausa').addEventListener('click', () => { inp.pressed.pause = true; });
     document.addEventListener('visibilitychange', () => { if (document.hidden) G.Game.pausar(true); });
-  },
-  // o botão do especial mostra a letra certa (L do Lula, ★ do Janones)
-  rotuloEspecial(txt) {
-    const b = document.querySelector('#touch .esp');
-    if (b) b.textContent = txt;
   },
 };
 
@@ -236,7 +248,6 @@ G.Game = {
     const inp = G.Input;
 
     if (inp.hit('mute')) G.Audio.alternar();
-    if (inp.hit('voice')) G.Voz.alternar();
     if (inp.hit('pause') || (this.scene.pausavel && !this.paused && inp.hit('back'))) this.pausar();
     else if (this.paused && (inp.hit('back') || inp.hit('ok') || inp.hit('tap'))) this.pausar(false);
 
@@ -285,11 +296,11 @@ G.Game = {
     ctx.fillStyle = 'rgba(0, 20, 8, 0.75)';
     ctx.fillRect(0, 0, G.W, G.H);
     G.texto(ctx, 'PAUSA', G.W / 2, 220, { size: 90, font: G.FONTE_TITULO, align: 'center', color: '#ffd400', stroke: '#000', lw: 10 });
-    G.texto(ctx, 'O 01 também parou pra tomar um ar. Ele tá suando.', G.W / 2, 270, { size: 20, align: 'center' });
+    G.texto(ctx, 'O 01 também parou pra respirar. Ele tá suando.', G.W / 2, 270, { size: 20, align: 'center' });
     const linhas = [
       'Enter / P: continuar',
       `M: música e sons (${G.Audio.ligado ? 'ligados' : 'desligados'})`,
-      `V: vozes do navegador (${G.Voz.ligada ? 'ligadas' : 'desligadas'})`,
+      'Esc: continuar',
     ];
     linhas.forEach((l, i) => G.texto(ctx, l, G.W / 2, 330 + i * 30, { size: 18, align: 'center', color: '#bdf5c8' }));
   },

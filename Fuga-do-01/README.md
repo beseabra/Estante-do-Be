@@ -1,77 +1,80 @@
 # Pessoal, Urgente! A Fuga do 01
 
-Paródia da eleição de 2026. O 01 está fugindo, e você (Lula ou Janones) corre atrás dele
-por cinco fases, cumprindo as missões que o Janones manda pelo canal do zap.
-No fim, a última missão é votar na urna.
+Paródia da eleição de 2026, no estilo WarioWare: uma sequência de **microgames de poucos
+segundos**, cada um diferente, que vão ficando mais rápidos. O Janones manda a missão
+("PESSOAL, URGENTE!"), você tem poucos segundos para cumprir. Depois de 12 missões vem o
+chefão: o 01 fugindo no aeroporto. No fim, a urna.
 
 **Dê dois cliques no `index.html`.** Não precisa instalar nada.
 
-| Tecla | Ação |
+## Controles
+
+Cada missão mostra antes qual controle usa:
+
+| Ícone | Teclado | Mouse / celular |
+|---|---|---|
+| 🖱️ mouse | | clique / toque nas coisas |
+| ← → setas | setas (ou A D) | segure o mouse/dedo para onde quer ir · botões ◀ ▶ |
+| ⎵ botão | Espaço, ↑ ou Enter | clique na tela · botão ● |
+
+P ou Esc pausa, M liga/desliga o som.
+
+## Os microgames
+
+| Missão | O que fazer |
 |---|---|
-| Espaço / ↑ / W | pular (aperte de novo no ar para o pulo duplo) |
-| ↓ / S | abaixar (passa por baixo das faixas e dos fantasmas) |
-| X / J | atirar (picanha do Lula ou áudio urgente do Janones) |
-| C / K | especial, quando a barra encher |
-| P / Esc | pausa |
-| M | liga/desliga o som |
-| V | liga/desliga as vozes do navegador |
-| Na urna | números, Backspace corrige, B branco, Enter confirma |
+| DESMENTE! | clique em todas as fake news do zap antes que espalhem |
+| ALGEMA! | solte a algema quando o 01 passar embaixo dela |
+| CADÊ O QUEIROZ? | ele pula das moitas; clique nele (no gnomo não vale) |
+| PEGA OS SALÁRIOS! | o 01 joga os envelopes da rachadinha; pegue antes de cair |
+| PICANHA AO PONTO! | pare o ponteiro na faixa verde |
+| COMPARTILHA! | aperte sem parar para espalhar o áudio |
+| VOTA 13! | 1, 3 e CONFIRMA na urna |
+| DESVIA! | não deixe boleto, bombom nem mala te acertar |
+| TIRA O FERRO DE SOLDA! | afaste o ferro da tornozeleira do Pai |
+| PASSINHO DO QUEIROZ! | aperte os comandos na ordem |
 
-No celular aparecem botões na tela, e a urna funciona tocando nas teclas.
+- Você tem **4 de credibilidade** (vidas). Errou uma missão, perde uma.
+- A cada 4 missões o jogo **ACELERA** (e a música junto).
+- **Chefão:** o 01 corre de um lado pro outro no aeroporto jogando coisas. Ande com ← →
+  e jogue algemas com Espaço. Seis algemas e chega o Japonês da Federal.
+- **Urna:** o final muda conforme o voto (13, 22, branco ou nulo).
 
-## Como funciona
+## Sons
 
-- A barra do alto mostra a **distância do 01**. Ela diminui sozinha enquanto você corre bem.
-  Levar dano, cair em buraco e as arrancadas dele aumentam a distância. Chegou a 0, pegou.
-  Passou do limite, ele fugiu pra Miami.
-- **Credibilidade** são as suas vidas. **Cervejinha** devolve uma.
-- **Picanha** dá um turbo de alguns segundos.
-- **Votos** (as estrelinhas 13) dão pontos e enchem o especial.
-- No meio da corrida o Janones manda **missões** ("PESSOAL, URGENTE!"). Cumprir dá
-  pontos, enche o especial e aproxima você do 01.
-- Especiais: **FAZ O L!** (Lula) e **EXÉRCITO DO LULA** (Janones) limpam a tela.
-
-## As fases
-
-| | Fase | Lugar | Novidade |
-|---|---|---|---|
-| 1 | O Gabinete Fantasma | ALERJ, Rio | assessores fantasmas, envelopes de salário, a CPI |
-| 2 | A Loja de Chocolate | shopping | bombons, caixas eletrônicos (48 depósitos de 2 mil) |
-| 3 | Cadê o Queiroz? | Atibaia | o Queiroz pula das moitas e dança |
-| 4 | A Mansão de 6 Milhões | Lago Sul, Brasília | boletos, piscina, o Pai na janela com a tornozeleira |
-| 5 | Fuga pra Miami | aeroporto | drones do gabinete do ódio e o Japonês da Federal |
-
-Os finais mudam conforme o voto na urna: 13, 22, branco ou nulo.
-
-## Sons de verdade
-
-Todos os sons e músicas são gerados pelo próprio jogo, e as falas saem pela voz do
-navegador. Para usar os áudios de verdade (o "Pessoal, urgente!" do Janones, o Lula Lá,
-a marchinha do Japonês da Federal, o barulhinho da urna...), coloque os arquivos na pasta
-`sons/` com os nomes listados em `sons/LEIA-ME.txt`. Os que existirem tomam o lugar dos
-gerados; os que faltarem continuam sintetizados.
+Os áudios de verdade estão na pasta `sons/` (vieram do myinstants.com): os áudios do
+Janones ("Pessoal, urgente!", "Avisa pra todo mundo", "Explode esse vídeo"...), "Missão dada
+é missão cumprida", o "Acertou!" e o "Errou!" do Faustão, "Faz o L", "Lula lá", "Ô Queiroz",
+"Tá ok", "Alô, Polícia Federal", o confirma da urna, o jingle do Flávio no chefão e mais.
+A lista completa está em `sons/LEIA-ME.txt`. Se algum arquivo faltar, o jogo gera um som
+parecido sozinho.
 
 ## Onde mexer
 
 ```
 index.html             a página; carrega os scripts na ordem certa
 css/style.css          centraliza o jogo e os botões de toque
-sons/                  seus mp3 (veja LEIA-ME.txt)
+sons/                  os áudios (veja LEIA-ME.txt)
 js/
-  config.js            ★ TEXTOS: falas, fases, missões, nomes dos arquivos de som
+  config.js            ★ TEXTOS e SONS: falas, fake news, créditos, nomes dos arquivos
   core.js              laço do jogo, controles, toque, texto
-  audio.js             efeitos, marchinhas geradas, vozes do navegador
+  audio.js             toca os áudios; gera a música e os sons que faltarem
   arte.js              os personagens e itens (tudo desenhado por código)
-  cenarios.js          fundos de cada fase e os obstáculos
   main.js              começa tudo
   cenas/
+    rodada.js          ★ o motor dos microgames (instrução, tempo, acelera, vidas)
     titulo.js          título e escolha de personagem
-    zap.js             o canal do zap com os áudios antes de cada fase
-    corrida.js         a perseguição (o jogo em si)
+    chefao.js          o chefão e o Japonês da Federal
     urna.js            a urna eletrônica
     final.js           derrota e os finais
+  micro/               ★ um arquivo por microgame
 ```
 
+### Criar um microgame novo
+
+Copie um arquivo de `js/micro/`, troque o `id`, o `verbo`, a `dica` e o jogo, e
+acrescente o `<script>` dele no `index.html`. Ele entra sozinho no sorteio.
+
 É uma paródia: as falas são piadas inventadas. Os casos citados (rachadinha, Queiroz,
-loja de chocolate, mansão) são os que foram noticiados e investigados; o da rachadinha
+loja de chocolate, mansão, tornozeleira) são os que foram noticiados; o da rachadinha
 foi anulado pelo STJ em 2021, e o jogo faz piada disso também.
