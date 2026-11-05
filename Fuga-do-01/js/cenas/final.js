@@ -2,12 +2,11 @@
 //  DERROTA (o 01 fugiu) e FINAIS (depende do voto na urna)
 // ============================================================
 G.CenaDerrota = class {
-  constructor(n, heroi, motivo, inicio) {
-    this.n = n;
+  constructor(heroi) {
     this.heroi = heroi;
-    this.motivo = motivo;
-    this.inicio = inicio;
     this.t = 0;
+    this.C = G.Campanha || { pontos: 0, missoes: 0, erros: 0 };
+    this.consolo = false;
     this.piada = G.U.pick([
       'O irmão já foi buscar ele no aeroporto.',
       'Ele já abriu uma loja de chocolate em Orlando.',
@@ -18,15 +17,18 @@ G.CenaDerrota = class {
   }
   enter() {
     G.Audio.musica('derrota');
-    G.Voz.falar(this.heroi === 'lula' ? 'Companheiro, a gente levanta e tenta de novo.' : 'Pessoal... missão dada é missão cumprida. De novo!', this.heroi, true);
+    G.Audio.tocar('trombone');
   }
   update(dt) {
     this.t += dt;
+    // depois do trombone, o Lula consola: "chora não, companheiro"
+    if (!this.consolo && this.t > 2.2) { this.consolo = true; G.Audio.tocar('companheiro'); }
     if (this.t < 0.8) return;
-    if (G.Input.hit('back')) { G.Game.trocar(() => new G.CenaTitulo()); return; }
+    if (G.Input.hit('back')) { G.Audio.pararClipes(); G.Game.trocar(() => new G.CenaTitulo()); return; }
     if (G.Input.avancar()) {
-      G.Campanha = { ...this.inicio };
-      G.Game.trocar(() => new G.CenaCorrida(this.n, this.heroi));
+      G.Audio.pararClipes();
+      G.Audio.pararMusica();
+      G.Game.trocar(() => new G.CenaRodada(this.heroi));
     }
   }
   draw(ctx) {
@@ -51,8 +53,8 @@ G.CenaDerrota = class {
     G.texto(ctx, 'VOO 01 · MIAMI', 0, 20, { size: 11, align: 'center', color: '#1d4fa8', weight: 900 });
     ctx.restore();
 
-    G.texto(ctx, this.motivo === 'fugiu' ? 'O 01 FUGIU!' : 'SEM CREDIBILIDADE!', G.W / 2, 110, { size: 80, font: G.FONTE_TITULO, align: 'center', color: '#ff4040', stroke: '#111', lw: 10 });
-    G.texto(ctx, this.motivo === 'fugiu' ? 'Ele abriu muita distância e embarcou.' : 'Você levou tanta pancada que ninguém mais acredita em você.', G.W / 2, 150, { size: 18, align: 'center', color: '#fff' });
+    G.texto(ctx, 'O 01 FUGIU!', G.W / 2, 110, { size: 80, font: G.FONTE_TITULO, align: 'center', color: '#ff4040', stroke: '#111', lw: 10 });
+    G.texto(ctx, `Acabou a credibilidade. Missões cumpridas: ${this.C.missoes}  ·  ${this.C.pontos.toLocaleString('pt-BR')} pontos`, G.W / 2, 150, { size: 18, align: 'center', color: '#fff' });
     G.texto(ctx, this.piada, G.W / 2, 400, { size: 20, align: 'center', color: '#ffd400', weight: 900 });
 
     G.Arte.boneco(ctx, this.heroi, 110, 520, { t, pose: 'fala', celular: this.heroi === 'janones', esc: 1.2 });
@@ -70,8 +72,7 @@ G.CenaFinal = class {
     this.t = 0;
     this.parte = 0; // 0 = cena, 1 = resultados e créditos
     this.confete = [];
-    this.C = G.Campanha || G.novaCampanha();
-    G.Save.gravar('fase', 0);
+    this.C = G.Campanha || { pontos: 0, missoes: 0, erros: 0 };
     const recorde = G.Save.ler('recorde', 0);
     this.recorde = this.C.pontos > recorde;
     if (this.recorde) G.Save.gravar('recorde', this.C.pontos);
@@ -81,13 +82,13 @@ G.CenaFinal = class {
     if (this.voto === '13') {
       G.Audio.musica('vitoria');
       G.Audio.tocar('buzina');
-      G.Voz.falar('O amor venceu de novo! Picanha e cervejinha pra todo mundo!', 'lula', true);
+      G.Audio.tocar('faz-o-l-vinheta');
     } else if (this.voto === '22') {
       G.Audio.musica('urna');
-      G.Voz.falar('O voto foi registrado. Mas o candidato está ocupado prestando depoimento.', 'narrador', true);
+      G.Audio.tocar('vine-boom');
     } else {
       G.Audio.musica('derrota');
-      G.Audio.dizer('pessoal-urgente', 'Pessoal, urgente! Quem foi que votou ' + this.voto + '?', 'janones', true);
+      G.Audio.tocar('urgente2');
     }
   }
   update(dt) {
@@ -175,18 +176,13 @@ G.CenaFinal = class {
     G.fundoComicio(ctx, t * 0.5, ['#0b6b2c', '#0a5a25']);
     this.desenhaConfete(ctx);
     const C = this.C;
-    const rank = C.pontos > 40000 ? 'MINISTRO DAS MISSÕES' : C.pontos > 25000 ? 'GENERAL DA PICANHA' : C.pontos > 15000 ? 'SARGENTO DO ZAP' : C.pontos > 7000 ? 'CABO ELEITORAL' : 'SOLDADO RASO DO ZAP';
+    const rank = C.pontos > 3400 ? 'MINISTRO DAS MISSÕES' : C.pontos > 2800 ? 'GENERAL DA PICANHA' : C.pontos > 2200 ? 'SARGENTO DO ZAP' : C.pontos > 1500 ? 'CABO ELEITORAL' : 'SOLDADO RASO DO ZAP';
     ctx.fillStyle = 'rgba(0,30,10,0.85)'; G.retRedondo(ctx, 40, 30, 430, 480, 18); ctx.fill();
     G.texto(ctx, 'RESULTADO DA CAMPANHA', 255, 74, { size: 32, font: G.FONTE_TITULO, align: 'center', color: '#ffd400' });
     const linhas = [
       ['Pontos', C.pontos.toLocaleString('pt-BR') + (this.recorde ? '  ★ RECORDE!' : '')],
-      ['Votos coletados', C.votos],
       ['Missões do Janones cumpridas', C.missoes],
-      ['Fake news desmentidas', C.fakes],
-      ['Vezes que achou o Queiroz', C.queiroz],
-      ['Acertos no 01', C.acertos],
-      ['Assessores fantasmas exorcizados', C.fantasmas],
-      ['Picanhas comidas', C.picanhas],
+      ['Missões que deram errado', C.erros],
       ['Seu voto', { '13': '13 (LULA)', '22': '22 (sério?)', branco: 'BRANCO', nulo: 'NULO' }[this.voto]],
     ];
     linhas.forEach(([k, v], i) => {

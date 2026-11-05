@@ -1,9 +1,8 @@
 // ============================================================
 //  SOM
-//  Três camadas, nesta ordem de preferência:
+//  Duas camadas, nesta ordem de preferência:
 //    1. arquivos de verdade em "sons/" (veja G.ARQUIVOS no config.js)
-//    2. sons e músicas gerados na hora com a Web Audio API
-//    3. vozes: a voz do próprio navegador lê os bordões
+//    2. sons e músicas gerados na hora com a Web Audio API, para o que faltar
 // ============================================================
 
 // ---------- trilhas geradas (marchinhas originais, nada copiado) ----------
@@ -16,31 +15,14 @@ G.TRILHAS = {
          'E5 . G5 . C6 - B5 A5 G5 . E5 . C5 - E5 G5 A5 . F5 . D5 . B4 . C5 - - - . . G4 . ',
     baixo: 'C3 C3 D3 G2 C3 A2 G2 C3',
   },
-  fase1: {
-    bpm: 150, onda: 'square', bateria: 'marcha',
-    mel: 'C5 C5 F5 . A5 . F5 . G5 G5 E5 . C5 . . . A4 C5 F5 . A5 . C6 . A5 G5 F5 E5 F5 - . . ' +
-         'D5 D5 G5 . Bb5 . G5 . F5 F5 A5 . C6 . . . Bb5 A5 G5 F5 E5 . G5 . F5 - - - . . C5 . ',
-    baixo: 'F2 C3 F2 F2 G2 F2 C3 F2',
+  // a música dos microgames (acelera junto com o jogo)
+  rodada: {
+    bpm: 132, onda: 'square', bateria: 'samba',
+    mel: 'C5 . E5 G5 . E5 C5 . D5 . F5 A5 . F5 D5 . E5 G5 C6 . B5 G5 E5 . D5 E5 F5 . E5 - - . ' +
+         'A5 . C6 . A5 . F5 . G5 . B5 . G5 . E5 . F5 A5 C6 . A5 F5 D5 . G5 - - . G4 . B4 . ',
+    baixo: 'C3 D3 C3 G2 F2 G2 F2 G2',
   },
-  fase2: {
-    bpm: 156, onda: 'triangle', bateria: 'samba',
-    mel: 'G5 . B5 D6 . B5 G5 . A5 . C6 E6 . C6 A5 . B5 D6 G6 - F#6 E6 D6 . C6 B5 A5 B5 G5 - - . ' +
-         'E5 . G5 B5 . G5 E5 . F#5 . A5 C6 . A5 F#5 . G5 B5 D6 . C6 A5 F#5 . G5 - - - . . D5 . ',
-    baixo: 'G2 A2 G2 D3 E2 D2 G2 G2',
-  },
-  fase3: {
-    bpm: 124, onda: 'triangle', bateria: 'noite',
-    mel: 'A4 . C5 . E5 . D#5 E5 . . B4 . . . . . A4 . C5 . F5 . E5 D5 C5 . B4 . A4 - - . ' +
-         'E5 . G5 . B5 . A#5 B5 . . F#5 . . . . . E5 D5 C5 B4 A4 . G#4 . A4 - - - . . . . ',
-    baixo: 'A2 E2 F2 E2 A2 E2 D2 A2',
-  },
-  fase4: {
-    bpm: 128, onda: 'sine', bateria: 'bossa',
-    mel: 'F#5 . A5 . D6 . C#6 . B5 . A5 . F#5 - . . G5 . B5 . E6 . D6 . C#6 . A5 . . . . . ' +
-         'F#5 . A5 . D6 . F#6 . E6 . D6 . B5 - . . G5 A5 B5 C#6 D6 . A5 . D6 - - - . . . . ',
-    baixo: 'D3 B2 G2 A2 D3 B2 E2 D3',
-  },
-  fase5: {
+  chefao: {
     bpm: 168, onda: 'sawtooth', bateria: 'tenso',
     mel: 'E5 E5 . E5 G5 . E5 . D5 D5 . D5 F#5 . D5 . C5 C5 . C5 E5 . G5 . F#5 . D#5 . B4 . . . ' +
          'E5 E5 . E5 G5 . B5 . A5 A5 . A5 C6 . A5 . G5 . F#5 . E5 . D#5 . E5 - - - B4 . E4 . ',
@@ -69,6 +51,9 @@ G.Audio = {
   ligado: true,
   arquivos: {},     // nome -> { ok, el }
   trilha: null,     // nome da música atual
+  ritmo: 1,         // velocidade da música (acelera nos microgames)
+  clipes: [],       // áudios tocando agora (para poder cortar)
+  ultimo: {},       // último clipe sorteado de cada lista (para não repetir)
   seq: null,        // estado do sequenciador
   elMusica: null,   // <audio> da música vinda de arquivo
 
@@ -102,14 +87,13 @@ G.Audio = {
     this.sfx.gain.value = 0.6;
     this.sfx.connect(this.master);
     this.mus = ctx.createGain();
-    this.mus.gain.value = 0.22;
+    this.mus.gain.value = 0.14;
     this.mus.connect(this.master);
     // ruído branco (explosões, caixa da bateria, chiado do zap)
     const len = ctx.sampleRate;
     this.ruido = ctx.createBuffer(1, len, ctx.sampleRate);
     const d = this.ruido.getChannelData(0);
     for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-    G.Voz.init();
     // se uma música foi pedida antes do primeiro toque, começa agora
     if (this.trilha) { const t = this.trilha; this.trilha = null; this.musica(t); }
   },
@@ -118,26 +102,46 @@ G.Audio = {
     this.ligado = !this.ligado;
     if (this.master) this.master.gain.value = this.ligado ? 0.8 : 0;
     if (this.elMusica) this.elMusica.muted = !this.ligado;
-    if (!this.ligado && window.speechSynthesis) speechSynthesis.cancel();
+    if (!this.ligado) this.pararClipes();
   },
 
   // ---------- efeitos ----------
-  // toca o arquivo se existir; senão o som gerado
-  tocar(nome) {
-    if (!this.ligado) return;
+  // toca o arquivo se existir; senão o som gerado. vol: 0 a 1
+  tocar(nome, vol = 0.85) {
+    if (!this.ligado) return false;
     if (this.tem(nome)) {
-      const el = this.arquivos[nome].el;
-      try { el.currentTime = 0; el.play().catch(() => {}); } catch (e) { /* ok */ }
+      const el = this.arquivos[nome].el.cloneNode();
+      el.volume = vol;
+      el.play().catch(() => {});
+      this.clipes.push(el);
+      el.addEventListener('ended', () => { this.clipes = this.clipes.filter((c) => c !== el); });
       return true;
     }
-    if (this.ctx && this.SFX[nome]) this.SFX[nome].call(this, this.ctx.currentTime);
+    const sfx = this.SFX[nome] || this.SFX[this.PARECIDO[nome]];
+    if (this.ctx && sfx) sfx.call(this, this.ctx.currentTime);
     return false;
   },
 
-  // um bordão: arquivo de verdade OU um som + a voz do navegador lendo o texto
-  dizer(nome, texto, quem, forca) {
-    if (this.tocar(nome)) return;
-    if (texto) G.Voz.falar(texto, quem, forca);
+  // sorteia um da lista, sem repetir o último
+  tocarUm(lista, vol) {
+    const chave = lista.join();
+    const opcoes = lista.length > 1 ? lista.filter((n) => n !== this.ultimo[chave]) : lista;
+    const nome = G.U.pick(opcoes);
+    this.ultimo[chave] = nome;
+    return this.tocar(nome, vol);
+  },
+
+  // corta os áudios que ainda estão tocando
+  pararClipes() {
+    for (const c of this.clipes) c.pause();
+    this.clipes = [];
+  },
+
+  // quando falta o arquivo, qual som gerado usar no lugar
+  PARECIDO: {
+    urgente1: 'pessoal-urgente', urgente2: 'pessoal-urgente', urgente3: 'pessoal-urgente', urgente4: 'pessoal-urgente', urgente5: 'pessoal-urgente',
+    acertou: 'missao-cumprida', errou: 'missao-falhou', 'vine-boom': 'boom', 'faz-o-l-vinheta': 'faz-o-l',
+    companheiro: 'trombone', risada: 'taokey', 'policia-federal': 'sirene', picanha: 'picanha',
   },
 
   midi(n) { return 440 * Math.pow(2, (n - 69) / 12); },
@@ -221,15 +225,17 @@ G.Audio = {
   },
 
   // ---------- música ----------
-  musica(nome) {
-    if (this.trilha === nome) return;
+  musica(nome, ritmo = 1) {
+    if (this.trilha === nome) { this.mudaRitmo(ritmo); return; }
     this.pararMusica();
     this.trilha = nome;
+    this.ritmo = ritmo;
     const arq = 'musica-' + nome;
     if (this.tem(arq)) {
       const el = this.arquivos[arq].el;
       el.loop = true;
-      el.volume = 0.6;
+      el.volume = 0.45;
+      el.playbackRate = ritmo;
       el.muted = !this.ligado;
       el.currentTime = 0;
       el.play().catch(() => {});
@@ -244,8 +250,14 @@ G.Audio = {
       baixo: tr.baixo.trim().split(/\s+/).map((n) => this.nota(n)),
       passo: 0,
       prox: this.ctx.currentTime + 0.1,
-      col: 60 / tr.bpm / 2, // uma colcheia em segundos
+      col: 60 / tr.bpm / 2 / ritmo, // uma colcheia em segundos
     };
+  },
+
+  mudaRitmo(ritmo) {
+    this.ritmo = ritmo;
+    if (this.elMusica) this.elMusica.playbackRate = ritmo;
+    if (this.seq) this.seq.col = 60 / this.seq.tr.bpm / 2 / ritmo;
   },
 
   pararMusica() {
@@ -323,47 +335,5 @@ G.Audio = {
     if (b === 'noite') { if (pos === 0) bumbo(); if (pos === 4) caixa(0.08); if (pos % 2 === 0) chimbal(0.03); }
     if (b === 'bossa') { if (pos === 0 || pos === 5) bumbo(); if (pos === 2 || pos === 6) caixa(0.06); chimbal(0.04); }
     if (b === 'tenso') { if (pos % 2 === 0) bumbo(); if (pos % 4 === 2) caixa(0.2); chimbal(0.07); }
-  },
-};
-
-// ---------- vozes do navegador ----------
-G.Voz = {
-  ligada: true,
-  voz: null,
-  // jeito de falar de cada um (tom e velocidade)
-  JEITO: {
-    lula: { pitch: 0.55, rate: 0.95 },
-    janones: { pitch: 1.15, rate: 1.3 },
-    flavio: { pitch: 1.5, rate: 1.25 },
-    queiroz: { pitch: 0.8, rate: 1.0 },
-    japones: { pitch: 0.4, rate: 0.85 },
-    jair: { pitch: 0.9, rate: 1.1 },
-    narrador: { pitch: 1.0, rate: 1.1 },
-  },
-  init() {
-    if (!window.speechSynthesis) return;
-    const escolhe = () => {
-      const vs = speechSynthesis.getVoices();
-      this.voz = vs.find((v) => /pt[-_]BR/i.test(v.lang)) || vs.find((v) => /^pt/i.test(v.lang)) || null;
-    };
-    escolhe();
-    speechSynthesis.onvoiceschanged = escolhe;
-  },
-  alternar() {
-    this.ligada = !this.ligada;
-    if (!this.ligada && window.speechSynthesis) speechSynthesis.cancel();
-  },
-  // forca = true interrompe quem estiver falando
-  falar(txt, quem = 'narrador', forca = false) {
-    if (!this.ligada || !G.Audio.ligado || !window.speechSynthesis) return;
-    if (speechSynthesis.speaking) { if (!forca) return; speechSynthesis.cancel(); }
-    const u = new SpeechSynthesisUtterance(txt.replace(/[^\p{L}\p{N}\s,.!?]/gu, ''));
-    u.lang = 'pt-BR';
-    if (this.voz) u.voice = this.voz;
-    const j = this.JEITO[quem] || this.JEITO.narrador;
-    u.pitch = j.pitch;
-    u.rate = j.rate;
-    u.volume = 1;
-    speechSynthesis.speak(u);
   },
 };

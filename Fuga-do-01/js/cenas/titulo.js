@@ -20,10 +20,9 @@ G.fundoComicio = function (ctx, t, cores = ['#d11f2b', '#b3121d']) {
 G.CenaTitulo = class {
   constructor() {
     this.t = 0;
-    this.fase = G.Save.ler('fase', 0);
-    this.opcao = 0; // 0 = nova campanha, 1 = continuar
-    this.opcoes = this.fase > 0 ? ['NOVA CAMPANHA', `CONTINUAR (FASE ${this.fase + 1})`] : ['COMEÇAR A CAMPANHA'];
-    this.opcao = this.fase > 0 ? 1 : 0;
+    this.recorde = G.Save.ler('recorde', 0);
+    this.opcoes = ['JOGAR'];
+    this.opcao = 0;
     this.falaT = 0;
     this.fala = null;
   }
@@ -33,21 +32,16 @@ G.CenaTitulo = class {
   update(dt) {
     this.t += dt;
     const inp = G.Input;
-    if (inp.hit('left') || inp.hit('slide')) { this.opcao = (this.opcao + this.opcoes.length - 1) % this.opcoes.length; G.Audio.tocar('seleciona'); }
-    if (inp.hit('right') || inp.hit('jump')) { this.opcao = (this.opcao + 1) % this.opcoes.length; G.Audio.tocar('seleciona'); }
-    if (inp.hit('ok') || inp.hit('tap')) {
+    if (G.Input.avancar()) {
       G.Audio.tocar('buzina');
-      const fase = this.opcao === 1 ? this.fase : 0;
-      if (fase === 0) G.Save.gravar('fase', 0);
-      G.Campanha = G.novaCampanha();
-      G.Game.trocar(() => new G.CenaEscolha(fase));
+      G.Game.trocar(() => new G.CenaEscolha());
     }
     // falas soltas dos personagens correndo
     this.falaT -= dt;
     if (this.falaT <= 0) {
       this.falaT = 2.6;
       const quem = G.U.pick(['flavio', 'lula', 'janones']);
-      const txt = quem === 'flavio' ? G.U.pick(G.FALAS_FLAVIO) : G.U.pick(G.HEROIS[quem].falas);
+      const txt = quem === 'flavio' ? G.U.pick(G.FALAS_FLAVIO) : G.U.pick(G.HEROIS[quem].vitoria);
       this.fala = { quem, txt, t: 0 };
     }
     if (this.fala) this.fala.t += dt;
@@ -94,16 +88,16 @@ G.CenaTitulo = class {
       G.texto(ctx, op, x, y + 7, { size: 20, align: 'center', color: sel ? '#111' : '#fff', weight: 900 });
     });
     const pisca = Math.sin(t * 5) > -0.3;
-    if (pisca) G.texto(ctx, G.Mobile.on ? 'toque para começar' : 'ENTER para começar  ·  ← → para escolher', G.W / 2, 314, { size: 16, align: 'center', color: '#fff', stroke: '#111', lw: 4 });
+    if (pisca) G.texto(ctx, G.Mobile.on ? 'toque para começar' : 'ENTER para começar', G.W / 2, 314, { size: 16, align: 'center', color: '#fff', stroke: '#111', lw: 4 });
 
-    G.texto(ctx, 'Uma paródia das eleições de 2026  ·  M: som  ·  V: vozes', G.W / 2, 530, { size: 12, align: 'center', color: 'rgba(255,255,255,0.75)' });
+    if (this.recorde) G.texto(ctx, `recorde: ${this.recorde.toLocaleString('pt-BR')} pontos`, G.W / 2, 344, { size: 15, align: 'center', color: '#ffd400', stroke: '#111', lw: 4 });
+    G.texto(ctx, '12 missões de poucos segundos + o chefão  ·  Uma paródia das eleições de 2026  ·  M: som', G.W / 2, 530, { size: 12, align: 'center', color: 'rgba(255,255,255,0.75)' });
   }
 };
 
 // ---------- escolha de personagem ----------
 G.CenaEscolha = class {
-  constructor(fase) {
-    this.fase = fase;
+  constructor() {
     this.t = 0;
     this.sel = 0;
     this.lista = ['lula', 'janones'];
@@ -115,8 +109,6 @@ G.CenaEscolha = class {
     if (inp.hit('left') || inp.hit('right')) {
       this.sel = 1 - this.sel;
       G.Audio.tocar('seleciona');
-      const h = this.lista[this.sel];
-      G.Voz.falar(h === 'lula' ? 'Companheiro!' : 'Pessoal, urgente!', h, true);
     }
     // no celular, tocar num dos lados escolhe
     if (inp.toque) {
@@ -126,9 +118,8 @@ G.CenaEscolha = class {
     if (inp.hit('back')) G.Game.trocar(() => new G.CenaTitulo());
     if (inp.hit('ok') || inp.hit('jump') || inp.hit('tap')) {
       const heroi = this.lista[this.sel];
-      G.Save.gravar('heroi', heroi);
-      G.Audio.dizer(heroi === 'lula' ? 'faz-o-l' : 'pessoal-urgente', heroi === 'lula' ? 'Faz o L!' : 'Pessoal, urgente!', heroi, true);
-      G.Game.trocar(() => new G.CenaZap(this.fase, heroi));
+      G.Audio.pararMusica();
+      G.Game.trocar(() => new G.CenaRodada(heroi));
     }
   }
   draw(ctx) {
@@ -156,7 +147,7 @@ G.CenaEscolha = class {
         const linhas = G.quebra(ctx, d, 190, 14);
         linhas.forEach((l, j) => G.texto(ctx, l, -10, -90 + k * 66 + j * 18, { size: 14, color: '#222' }));
       });
-      G.texto(ctx, `"${H.falas[Math.floor(t / 2.2 + i) % H.falas.length]}"`, 0, 175, { size: 15, align: 'center', color: '#555', weight: 800 });
+      G.texto(ctx, `"${H.vitoria[Math.floor(t / 2.2 + i) % H.vitoria.length]}"`, 0, 175, { size: 15, align: 'center', color: '#555', weight: 800 });
       ctx.restore();
     });
     G.texto(ctx, G.Mobile.on ? 'toque num candidato e depois toque de novo' : '← → escolhe  ·  ENTER confirma', G.W / 2, 525, { size: 16, align: 'center', color: '#fff' });
