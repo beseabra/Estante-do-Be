@@ -30,7 +30,9 @@
   //  Início
   // ============================================================
   async function iniciar() {
+    Universo.iniciar($('#universo'));
     Globo.iniciar($('#globo'), {
+      aoMover: Universo.seguir,
       aoClicarPino: (id) => abrirLugar(lugares.find((l) => l.id === id)),
       aoClicarTerra,
       aoClicarFora: esconderBalao,

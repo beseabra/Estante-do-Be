@@ -7,6 +7,7 @@ Abra o `index.html`. Funciona direto do computador, sem servidor, mas precisa de
 ## Como usa
 
 - **Girar:** arraste o globo. A rodinha do mouse (ou a pinça no celular) aproxima e afasta. Parado e de longe, ele gira devagar sozinho. O botão ⏸ desliga isso.
+- **O universo:** atrás do globo tem estrelas, a Via Láctea e, de vez em quando, uma estrela cadente. O céu gira junto quando você gira a Terra.
 - **Ver o relevo:** o botão da montanha inclina a câmera e as montanhas aparecem em 3D. Também dá para inclinar arrastando com o botão direito do mouse (ou com dois dedos no celular).
 - **Fincar um alfinete:** busque uma cidade lá em cima, ou clique em qualquer ponto do globo. Aparece um balão com o nome do lugar e o botão **fincar alfinete**.
 - **Galeria:** clique num alfinete (ou num item de "meus lugares"). No painel dá para:
@@ -32,6 +33,7 @@ Por-Onde-Andei/
 ├── css/estilo.css   visual
 └── js/
     ├── banco.js     guarda lugares, fotos e vídeos (IndexedDB)
+    ├── universo.js  o céu de estrelas atrás do globo
     ├── globo.js     o globo 3D: satélite, relevo, divisas, voar, alfinetes
     └── app.js       busca, lista, galeria, visor, anotações, cópia
 ```

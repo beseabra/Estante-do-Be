@@ -74,6 +74,13 @@ window.Globo = (() => {
     mapa.on('pitchend', terminou);
     mapa.on('movestart', (ev) => { if (!ev.giro) cb.aoPassar?.(null); });
     mapa.on('moveend', (ev) => { if (!ev.giro) ajustarRelevo(); });
+    // avisa a cada movimento (o universo do fundo acompanha)
+    const avisarMovimento = () => {
+      const c = mapa.getCenter();
+      cb.aoMover?.(c.lng, c.lat, mapa.getZoom(), mapa.getPitch(), mapa.getBearing());
+    };
+    mapa.on('move', avisarMovimento);
+    avisarMovimento();
     mapa.getCanvas().addEventListener('pointerdown', () => { mexidoEm = performance.now(); });
 
     mapa.on('click', (ev) => {
@@ -95,7 +102,7 @@ window.Globo = (() => {
       version: 8,
       projection: { type: 'globe' },
       sky: {
-        'sky-color': '#0c0b10',
+        'sky-color': 'rgba(4,4,8,0)',
         'horizon-color': '#7fb6ff',
         'fog-color': '#a9cfff',
         'sky-horizon-blend': 0.6,
