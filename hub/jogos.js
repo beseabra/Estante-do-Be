@@ -33,6 +33,41 @@ window.SITE = {
 
 window.JOGOS = [
   {
+    id: "fuga-do-01",
+    titulo: "Pessoal, Urgente! A Fuga do 01",
+    pasta: "Fuga-do-01/",
+    capa: "hub/capas/fuga-do-01.png",
+    capturas: [
+      "hub/capturas/fuga-1.png",
+      "hub/capturas/fuga-2.png",
+      "hub/capturas/fuga-3.png",
+      "hub/capturas/fuga-4.png",
+      "hub/capturas/fuga-5.png",
+      "hub/capturas/fuga-6.png",
+    ],
+    cor: "#e8222d",
+    status: "teste",
+    destaque: true,
+    versao: "0.2 beta",
+    data: "2026-11-05",
+    duracao: "~3 minutos por partida",
+    jogadores: "1",
+    controles: "Teclado, mouse ou toque",
+    resumo:
+      "Paródia da eleição de 2026 em microgames de poucos segundos, estilo WarioWare. O Janones manda a missão, você cumpre correndo, e no fim o 01 tenta fugir pra Miami.",
+    descricao: [
+      "Doze missões relâmpago, cada uma diferente: desmentir fake news no zap, achar o Queiroz nas moitas, pegar os salários da rachadinha, deixar a picanha ao ponto, tirar o ferro de solda de perto da tornozeleira, votar 13 na urna e mais. A cada quatro, tudo acelera.",
+      "Depois vem o chefão: o 01 correndo no aeroporto jogando boletos, até chegar o Japonês da Federal. No fim, a urna, e o final muda conforme o voto.",
+      'Com os áudios de verdade: o "PESSOAL, URGENTE!" do Janones, o "Acertou!" e o "Errou!" do Faustão, "Faz o L", "Lula lá", "Ô Queiroz", "Alô, Polícia Federal" e o jingle do 01.',
+    ],
+    tags: ["Microgames", "Humor", "Paródia", "Política"],
+    notas: [
+      "Jogo refeito no formato de microgames (estilo WarioWare): 10 microgames, chefão, urna e 4 finais.",
+      "Áudios de verdade no lugar dos sons gerados.",
+      "Telas limpas, com fundo liso, para não confundir a vista.",
+    ],
+  },
+  {
     id: "por-onde-andei",
     titulo: "por onde andei",
     pasta: "Por-Onde-Andei/",

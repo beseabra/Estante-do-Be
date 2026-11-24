@@ -1,0 +1,72 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #0b1a10;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, #17331f 0%, #07120a 70%);
+}
+
+/* O canvas mantém a proporção 16:9 e ocupa o máximo da tela */
+#game {
+  display: block;
+  width: min(100vw, 177.78vh);
+  height: min(56.25vw, 100vh);
+  box-shadow: 0 0 80px rgba(255, 210, 0, 0.15);
+  cursor: pointer;
+}
+@supports (height: 100dvh) {
+  #game { width: min(100vw, 177.78dvh); height: min(56.25vw, 100dvh); }
+}
+
+/* ---------- Controles de toque (só no celular) ---------- */
+#touch {
+  display: none;
+  position: fixed;
+  inset: auto 0 0 0;
+  padding: 0 max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+}
+#touch.visible { display: flex; }
+#touch .lado { display: flex; gap: 12px; align-items: flex-end; }
+#touch button {
+  pointer-events: auto;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font: 900 24px 'Nunito', Arial, sans-serif;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  transition: transform .08s, background .08s;
+}
+#touch button.on { transform: scale(0.9); background: rgba(230, 30, 40, 0.5); }
+#touch .grande { width: 84px; height: 84px; font-size: 30px; border-color: #ffd400; }
+#touch .esp { color: #ff3b3b; font-family: 'Bangers', Impact, sans-serif; font-size: 30px; }
+
+#m-pausa { display: none; }
+html.toque #m-pausa {
+  position: fixed; z-index: 5; top: max(8px, env(safe-area-inset-top)); right: max(8px, env(safe-area-inset-right));
+  display: flex; gap: 5px; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.3); opacity: .8;
+}
+html.toque #m-pausa i { display: block; width: 4px; height: 14px; border-radius: 2px; background: #fff; }
+html.toque #game { cursor: default; box-shadow: none; }

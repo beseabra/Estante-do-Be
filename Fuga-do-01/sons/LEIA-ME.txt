@@ -1,0 +1,39 @@
+SONS
+====
+
+Áudios baixados do myinstants.com (volume igualado). Para trocar um som, substitua
+o arquivo mantendo o nome, ou mude o caminho em js/config.js (lista G.ARQUIVOS).
+Se um arquivo faltar, o jogo gera um som parecido sozinho.
+
+JANONES (um diferente a cada missão; entre aspas, o nome do áudio no myinstants)
+  pessoal-urgente.mp3          "PESSOAL URGENTE"
+  pessoal-urgente-explode.mp3  "PESSOAL URGENTE EXPLODE"
+  janones-avisa.mp3            "Janones - avisa pra todo mundo"
+  janones-voltamos.mp3         "janones urgente voltamos"
+  janones-explode.mp3          "Janones - explode esse video"
+  missao-cumprida.mp3          "missão dada é missão cumprida"
+
+ACERTOS E ERROS
+  acertou.mp3                  Faustão: "Acertou!"
+  errou.mp3                    Faustão: "Errou!"
+  vine-boom.mp3                o "boom"
+  buzina.mp3                   buzina (quando acelera)
+  zap.mp3                      notificação do zap
+
+BORDÕES
+  faz-o-l.mp3, faz-o-l-vinheta.mp3
+  picanha.mp3                  Lula: picanha e cerveja
+  companheiro.mp3              Lula: "chora não, companheiro" (derrota)
+  taokey.mp3                   "Tá ok"
+  queiroz.mp3                  "Ô Queiroz"
+  risada-bolsonaro.mp3         quando o 01 te acerta
+  perseguicao.mp3              antes do chefão
+  policia-federal.mp3          "Alô, Polícia Federal!"
+  sirene-pf.mp3                sirene
+  urna.mp3                     o confirma da urna
+  trombone.mp3                 derrota
+
+MÚSICAS
+  lula-la.mp3                  tela de título ("Lula lá, brilha uma estrela")
+  jingle-flavio.mp3            no chefão (o jingle do 01)
+  As outras músicas são geradas pelo jogo.
