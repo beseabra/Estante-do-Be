@@ -33,6 +33,38 @@ window.SITE = {
 
 window.JOGOS = [
   {
+    id: "expresso-butanta",
+    titulo: "Expresso Butantã",
+    pasta: "expresso-butanta/",
+    capa: "hub/capas/expresso-butanta.png",
+    capturas: [
+      "hub/capturas/expresso-1.png",
+      "hub/capturas/expresso-2.png",
+      "hub/capturas/expresso-3.png",
+      "hub/capturas/expresso-4.png",
+      "hub/capturas/expresso-5.png",
+    ],
+    cor: "#f6c21c",
+    status: "teste",
+    destaque: true,
+    versao: "0.1 beta",
+    data: "2026-11-23",
+    duracao: "~2 minutos por viagem",
+    jogadores: "1",
+    controles: "Teclado ou toque",
+    resumo:
+      "Corrida 3D de Jundiaí ao Butantã. Desvie, pule e deslize pelas parreiras, pelo trem, pela chuva e pelo campus, porque tem alguém esperando na chegada.",
+    descricao: [
+      "A viagem tem quatro trechos, cada um com os próprios obstáculos: as parreiras de Jundiaí, o trem lotado (que às vezes atrasa), as ruas de São Paulo debaixo de chuva e o campus florido do Butantã.",
+      "Pelo caminho, junte corações e pegue as ajudas: o ratinho puxa os corações, o guarda-chuva segura uma batida, o café dá um pique e a tomada recarrega a bateria. São três cargas: acabou a bateria, a viagem recomeça.",
+      "Troque de faixa com ← e →, pule com ↑ e deslize com ↓ (no celular, deslize o dedo). A cada viagem completa, a próxima fica mais rápida.",
+    ],
+    tags: ["Corrida", "3D", "Fofo", "Curto"],
+    notas: [
+      "Primeira versão de teste: quatro trechos, quatro ajudas e uma chegada.",
+    ],
+  },
+  {
     id: "fuga-do-01",
     titulo: "Pessoal, Urgente! A Fuga do 01",
     pasta: "Fuga-do-01/",
